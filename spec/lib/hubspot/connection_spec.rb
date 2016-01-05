@@ -4,30 +4,30 @@ describe Hubspot::Connection do
     @http_reponse = mock('http_response')
   end
 
-  describe '.get_json' do 
-  	it 'delegates url format to Hubspot::Utils, call HTTParty get and returns response' do 
+  describe '.get_json' do
+	it 'delegates url format to Hubspot::Utils, call HTTParty get and returns response' do
   	  @http_reponse.success? { true }
-      @http_reponse.parsed_response { {} }  
-      
+      @http_reponse.parsed_response { {} }
+
   	  mock(Hubspot::Connection).generate_url(@url, {}) { @url }
   	  mock(Hubspot::Connection).get(@url, format: :json) { @http_reponse }
       Hubspot::Connection.get_json(@url, {})
   	end
   end
 
-  describe '.post_json' do 
-  	it 'delegates url format to Hubspot::Utils, call HTTParty post and returns response' do 
+  describe '.post_json' do
+	it 'delegates url format to Hubspot::Utils, call HTTParty post and returns response' do
   	  @http_reponse.success? { true }
-      @http_reponse.parsed_response { {} }  
-      
+      @http_reponse.parsed_response { {} }
+
   	  mock(Hubspot::Connection).generate_url(@url, {}) { @url }
   	  mock(Hubspot::Connection).post(@url, body: "{}", headers: {"Content-Type"=>"application/json"}, format: :json) { @http_reponse }
       Hubspot::Connection.post_json(@url, params: {}, body: {})
   	end
   end
 
-  describe '.delete_json' do 
-  	it 'delegates url format to Hubspot::Utils, call HTTParty delete and returns response' do 
+  describe '.delete_json' do
+	it 'delegates url format to Hubspot::Utils, call HTTParty delete and returns response' do
   	  @http_reponse.success? { true }
 
   	  mock(Hubspot::Connection).generate_url(@url, {}) { @url }
@@ -36,7 +36,7 @@ describe Hubspot::Connection do
   	end
   end
 
-  context 'private methods' do 
+  context 'private methods' do
     describe ".generate_url" do
       let(:path){ "/test/:email/profile" }
       let(:params){{email: "test"}}
@@ -70,30 +70,36 @@ describe Hubspot::Connection do
 
       context "with an interpolated param" do
         let(:params){ {email: "email@address.com"} }
-        it{ should == "https://api.hubapi.com/test/email@address.com/profile?hapikey=demo" }
+        it{ should == "https://api.hubapi.com/test/email%40address.com/profile?hapikey=demo" }
       end
 
       context "with multiple interpolated params" do
         let(:path){ "/test/:email/:id/profile" }
         let(:params){{email: "email@address.com", id: 1234}}
-        it{ should == "https://api.hubapi.com/test/email@address.com/1234/profile?hapikey=demo" }
+        it{ should == "https://api.hubapi.com/test/email%40address.com/1234/profile?hapikey=demo" }
       end
 
       context "with query params" do
         let(:params){{email: "email@address.com", id: 1234}}
-        it{ should == "https://api.hubapi.com/test/email@address.com/profile?id=1234&hapikey=demo" }
+        it{ should == "https://api.hubapi.com/test/email%40address.com/profile?id=1234&hapikey=demo" }
 
         context "containing a time" do
           let(:start_time) { Time.now }
           let(:params){{email: "email@address.com", id: 1234, start: start_time}}
-          it{ should == "https://api.hubapi.com/test/email@address.com/profile?id=1234&start=#{start_time.to_i * 1000}&hapikey=demo" }
+          it{ should == "https://api.hubapi.com/test/email%40address.com/profile?id=1234&start=#{start_time.to_i * 1000}&hapikey=demo" }
         end
 
         context "containing a range" do
           let(:start_time) { Time.now }
           let(:end_time) { Time.now + 1.year }
           let(:params){{email: "email@address.com", id: 1234, created__range: start_time..end_time }}
-          it{ should == "https://api.hubapi.com/test/email@address.com/profile?id=1234&created__range=#{start_time.to_i * 1000}&created__range=#{end_time.to_i * 1000}&hapikey=demo" }
+          it{ should == "https://api.hubapi.com/test/email%40address.com/profile?id=1234&created__range=#{start_time.to_i * 1000}&created__range=#{end_time.to_i * 1000}&hapikey=demo" }
+        end
+
+        context "containing an array of strings" do
+          let(:path){ "/test/emails" }
+          let(:params){{batch_email: %w(email1@example.com email2@example.com)}}
+          it{ should == "https://api.hubapi.com/test/emails?email=email1%40example.com&email=email2%40example.com&hapikey=demo" }
         end
       end
 
@@ -102,7 +108,7 @@ describe Hubspot::Connection do
         it{ should == "https://cool.com/test/test/profile"}
       end
 
-      context "passing Array as parameters for batch mode, key is prefixed with batch_" do 
+      context "passing Array as parameters for batch mode, key is prefixed with batch_" do
         let(:path) { Hubspot::ContactList::LIST_BATCH_PATH }
         let(:params) { { batch_list_id: [1,2,3] } }
         it{ should == "https://api.hubapi.com/contacts/v1/lists/batch?listId=1&listId=2&listId=3&hapikey=demo" }
