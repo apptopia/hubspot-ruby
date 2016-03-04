@@ -37,7 +37,6 @@ module Hubspot
       end
 
       def create_or_update!(group_name, name, params = {})
-        find_by_name(name)
         update!(name, params.merge(groupName: group_name))
       rescue Hubspot::RequestError
         create!(group_name, params.merge(name: name))
