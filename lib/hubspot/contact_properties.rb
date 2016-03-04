@@ -36,6 +36,13 @@ module Hubspot
         new(response)
       end
 
+      def create_or_update!(group_name, name, params = {})
+        find_by_name(name)
+        update!(name, params.merge(groupName: group_name))
+      rescue Hubspot::RequestError
+        create!(group_name, params.merge(name: name))
+      end
+
       # {http://developers.hubspot.com/docs/methods/contacts/v2/delete_contact_property}
       def delete(name)
         response = Hubspot::Connection.delete_json("#{PROPERTY_PATH_BY_NAME}#{name}", {})
