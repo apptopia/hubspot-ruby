@@ -18,6 +18,7 @@ module Hubspot
     CONTACTS_PATH                = "/contacts/v1/lists/all/contacts/all"
     RECENT_CONTACTS_PATH         = '/contacts/v1/lists/recently_updated/contacts/recent'
     BATCH_CREATE_OR_UPDATE_PATH  = '/contacts/v1/contact/batch/'
+    CREATE_OR_UPDATE_PATH        = '/contacts/v1/contact/createOrUpdate/email/:contact_email'
 
     class << self
       # {https://developers.hubspot.com/docs/methods/contacts/create_contact}
@@ -64,6 +65,12 @@ module Hubspot
         Hubspot::Connection.post_json(BATCH_CREATE_OR_UPDATE_PATH,
                                       params: {},
                                       body: query)
+      end
+
+      # {http://developers.hubspot.com/docs/methods/contacts/create_or_update}
+      def create_or_update_by_email!(email, properties)
+        properties = properties.map{|property| property.stringify_keys}
+        Hubspot::Connection.post_json(CREATE_OR_UPDATE_PATH, params: {contact_email: email}.stringify_keys, body: {properties: properties})
       end
 
       # NOTE: problem with batch api endpoint
