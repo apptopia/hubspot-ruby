@@ -68,9 +68,12 @@ module Hubspot
       end
 
       # {http://developers.hubspot.com/docs/methods/contacts/create_or_update}
-      def create_or_update_by_email!(email, properties)
-        properties = properties.map{|property| property.stringify_keys}
-        Hubspot::Connection.post_json(CREATE_OR_UPDATE_PATH, params: {contact_email: email}.stringify_keys, body: {properties: properties})
+      def create_or_update_by_email!(email, params={})
+        params_with_email = params.stringify_keys
+        params_with_email["email"] ||= email
+        post_data = {properties: Hubspot::Utils.hash_to_properties(params_with_email)}
+
+        Hubspot::Connection.post_json(CREATE_OR_UPDATE_PATH, params: {contact_email: email}.stringify_keys, body: post_data)
       end
 
       # NOTE: problem with batch api endpoint
