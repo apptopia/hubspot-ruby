@@ -13,6 +13,7 @@ require 'hubspot/blog'
 require 'hubspot/topic'
 require 'hubspot/deal'
 require 'hubspot/event'
+require 'hubspot/company_properties'
 
 module Hubspot
   def self.configure(config={})
