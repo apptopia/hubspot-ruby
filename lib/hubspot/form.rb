@@ -28,6 +28,15 @@ module Hubspot
         response = Hubspot::Connection.get_json(FORM_PATH, { form_guid: guid })
         new(response)
       end
+
+      def create_or_update!(opts={})
+        form = all.find { |form| form.properties['name'] == opts[:name] }
+        if form
+          form.update!(opts)
+        else
+          create!(opts)
+        end
+      end
     end
 
     attr_reader :guid
@@ -35,7 +44,7 @@ module Hubspot
     attr_reader :properties
 
     def initialize(hash)
-      self.send(:assign_properties, hash)	
+      self.send(:assign_properties, hash)
     end
 
     # {https://developers.hubspot.com/docs/methods/forms/get_fields}
