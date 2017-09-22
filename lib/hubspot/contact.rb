@@ -32,6 +32,7 @@ module Hubspot
       # {https://developers.hubspot.com/docs/methods/contacts/get_contacts}
       # {https://developers.hubspot.com/docs/methods/contacts/get_recently_updated_contacts}
       def all(opts={})
+        raw = opts.delete(:raw) { false } 
         recent = opts.delete(:recent) { false } 
         path, opts = 
         if recent 
@@ -41,7 +42,7 @@ module Hubspot
         end
 
         response = Hubspot::Connection.get_json(path, opts)
-        response['contacts'].map { |c| new(c) }
+        raw ? response : response['contacts'].map { |c| new(c) }
       end
 
       # TODO: Add non-batch support: {https://developers.hubspot.com/docs/methods/contacts/create_or_update}

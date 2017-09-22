@@ -223,6 +223,15 @@ describe Hubspot::Contact do
         expect(last.vid).to eql 263776
       end
     end
+
+    context 'raw mode' do
+      cassette 'find_all_contacts'
+
+      it 'returns raw response' do
+        response = Hubspot::Contact.all(raw: true)
+        expect(response['has-more']).to eq(true)
+      end
+    end
   end
 
   describe "#update!" do
