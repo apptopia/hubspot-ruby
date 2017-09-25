@@ -12,6 +12,20 @@ module Hubspot
     attr_reader :last_updated, :created_by, :modified_by
     attr_reader :owner_id, :type, :timestamp
 
+    class << self
+      def all(opts = {})
+        raw = opts.delete(:raw) { false } 
+        response = Hubspot::Connection.get_json(ALL_ENGAGEMENTS_PATH, opts)
+        raw ? response : response['results'].map { |c| new(c) }
+      end
+
+      def recent(opts = {})
+        raw = opts.delete(:raw) { false } 
+        response = Hubspot::Connection.get_json(RECENT_ENGAGEMENTS_PATH, opts)
+        raw ? response : response['results'].map { |c| new(c) }
+      end
+    end
+
     def initialize(response_hash)
       @id           = response_hash['engagement']['id']
       @portal_id    = response_hash['engagement']['portalId']

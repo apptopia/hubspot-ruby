@@ -21,4 +21,56 @@ describe Hubspot::Engagement do
     its(:type){ should eq('NOTE') }
     its(:timestamp){ should eq(Time.parse('2015-04-09 16:37:00')) }
   end
+
+  describe '.all' do
+    cassette 'find_all_engagements_paged'
+
+    subject(:engagements) { described_class.all(options) }
+
+    context 'by default' do
+      let(:options) { {} }
+
+      it 'gets 100 engagements' do
+        expect(engagements.size).to eq(100)
+      end
+
+      it 'returns engagements only' do
+        expect(engagements.first).to be_a Hubspot::Engagement
+      end
+    end
+
+    context 'raw mode' do
+      let(:options) { {raw: true} }
+
+      it 'returns raw response' do
+        expect(engagements['hasMore']).to eq(true)
+      end
+    end
+  end
+
+  describe '.recent' do
+    cassette 'find_recent_engagements_paged'
+
+    subject(:engagements) { described_class.recent(options) }
+
+    context 'by default' do
+      let(:options) { {} }
+
+      it 'gets 20 engagements' do
+        expect(engagements.size).to eq(20)
+      end
+
+      it 'returns engagements only' do
+        expect(engagements.first).to be_a Hubspot::Engagement
+      end
+    end
+
+    context 'raw mode' do
+      let(:options) { {raw: true} }
+
+      it 'returns raw response' do
+        expect(engagements['hasMore']).to eq(true)
+      end
+    end
+  end
 end
