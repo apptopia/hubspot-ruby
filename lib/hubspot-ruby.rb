@@ -8,11 +8,13 @@ require 'hubspot/connection'
 require 'hubspot/contact'
 require 'hubspot/contact_properties'
 require 'hubspot/contact_list'
+require 'hubspot/engagement'
 require 'hubspot/form'
 require 'hubspot/blog'
 require 'hubspot/topic'
 require 'hubspot/deal'
 require 'hubspot/event'
+require 'hubspot/company_properties'
 
 module Hubspot
   def self.configure(config={})

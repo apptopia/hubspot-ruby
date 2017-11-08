@@ -20,4 +20,6 @@ group :development do
   gem "awesome_print"
   gem "timecop"
   gem "guard-rspec", require: false
+  gem 'fuubar'
+  gem 'awesome_print'
 end
