@@ -6,6 +6,7 @@ module Hubspot
   #
   class Company
     CREATE_COMPANY_PATH               = "/companies/v2/companies/"
+    ALL_COMPANIES_PATH                = "/companies/v2/companies/paged"
     RECENTLY_CREATED_COMPANIES_PATH   = "/companies/v2/companies/recent/created"
     RECENTLY_MODIFIED_COMPANIES_PATH  = "/companies/v2/companies/recent/modified"
     GET_COMPANY_BY_ID_PATH            = "/companies/v2/companies/:company_id"
@@ -15,7 +16,20 @@ module Hubspot
     DESTROY_COMPANY_PATH              = "/companies/v2/companies/:company_id"
 
     class << self
-      # Find all companies by created date (descending)
+      # Find all companies
+      # @param opts [Hash] Possible options are:
+      #    raw [Boolean] returns rfaw response instead of companies list
+      #    count [Integer] for pagination
+      #    offset [Integer] for pagination
+      # {https://developers.hubspot.com/docs/methods/companies/get-all-companies}
+      # @return [Array] Array of Hubspot::Company records
+      def all(opts={})
+        raw = opts.delete(:raw) { false } 
+        response = Hubspot::Connection.get_json(ALL_COMPANIES_PATH, opts)
+        raw ? response : response['companies'].map { |c| new(c) }
+      end
+
+      # Find recent companies by created date (descending)
       # @param opts [Hash] Possible options are:
       #    recently_updated [boolean] (for querying all accounts by modified time)
       #    count [Integer] for pagination
@@ -23,10 +37,9 @@ module Hubspot
       # {http://developers.hubspot.com/docs/methods/companies/get_companies_created}
       # {http://developers.hubspot.com/docs/methods/companies/get_companies_modified}
       # @return [Array] Array of Hubspot::Company records
-      def all(opts={})
+      def recent(opts={})
+        raw = opts.delete(:raw) { false } 
         recently_updated = opts.delete(:recently_updated) { false }
-        # limit = opts.delete(:limit) { 20 }
-        # skip = opts.delete(:skip) { 0 }
         path = if recently_updated
           RECENTLY_MODIFIED_COMPANIES_PATH
         else
@@ -34,7 +47,8 @@ module Hubspot
         end
 
         response = Hubspot::Connection.get_json(path, opts)
-        response['results'].map { |c| new(c) }
+
+        raw ? response : response['results'].map { |c| new(c) }
       end
 
       # Finds a list of companies by domain

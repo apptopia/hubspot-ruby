@@ -1,4 +1,4 @@
-describe Hubspot::Contact do
+describe Hubspot::Company do
   let(:example_company_hash) do
     VCR.use_cassette("company_example", record: :none) do
       HTTParty.get("https://api.hubapi.com/companies/v2/companies/21827084?hapikey=demo").parsed_response
@@ -73,11 +73,37 @@ describe Hubspot::Contact do
   end
 
   describe '.all' do
-    context 'all companies' do
+    cassette 'find_all_companies_paged'
+
+    subject(:companies) { described_class.all(options) }
+
+    context 'by default' do
+      let(:options) { {} }
+
+      it 'gets 100 companies' do
+        expect(companies.size).to eq(100)
+      end
+
+      it 'returns companies only' do
+        expect(companies.first).to be_a Hubspot::Company
+      end
+    end
+
+    context 'raw mode' do
+      let(:options) { {raw: true} }
+
+      it 'returns raw response' do
+        expect(companies['has-more']).to eq(true)
+      end
+    end
+  end
+
+  describe '.recent' do
+    context 'recent companies' do
       cassette 'find_all_companies'
 
       it 'must get the companies list' do
-        companies = Hubspot::Company.all
+        companies = Hubspot::Company.recent
 
         expect(companies.size).to eql 20 # default page size
 
@@ -90,11 +116,11 @@ describe Hubspot::Contact do
 
         expect(last).to be_a Hubspot::Company
         expect(last.vid).to eql 42861017
-        expect(last['name']).to eql 'Xge5rbdt2zm'
+        expect(first['name']).to eql 'name'
       end
 
       it 'must filter only 2 copmanies' do
-        copmanies = Hubspot::Company.all(count: 2)
+        copmanies = Hubspot::Company.recent(count: 2)
         expect(copmanies.size).to eql 2
       end
     end
@@ -103,15 +129,24 @@ describe Hubspot::Contact do
       cassette 'find_all_recent_companies'
 
       it 'must get the companies list' do
-        companies = Hubspot::Company.all(recent: true)
+        companies = Hubspot::Company.recent(recently_updated: true)
         expect(companies.size).to eql 20
 
         first, last = companies.first, companies.last
         expect(first).to be_a Hubspot::Company
-        expect(first.vid).to eql 42866817
+        expect(first.vid).to eql 465714740
 
         expect(last).to be_a Hubspot::Company
-        expect(last.vid).to eql 42861017
+        expect(last.vid).to eql 181368790
+      end
+    end
+
+    context 'raw mode' do
+      cassette 'find_all_companies'
+
+      it 'returns raw response' do
+        response = Hubspot::Company.recent(raw: true)
+        expect(response['hasMore']).to eq(true)
       end
     end
   end
@@ -156,7 +191,7 @@ describe Hubspot::Contact do
     cassette "add_contact_to_company"
     let(:company){ Hubspot::Company.create!("company_#{Time.now.to_i}@example.com") }
     let(:contact){ Hubspot::Contact.create!("contact_#{Time.now.to_i}@example.com") }
-    subject { Hubspot::Company.all(recent: true).last }
+    subject { Hubspot::Company.recent.last }
     context "with Hubspot::Contact instance" do
       before { company.add_contact contact }
       its(['num_associated_contacts']) { should eql '1' }
