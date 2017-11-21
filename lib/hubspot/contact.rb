@@ -80,7 +80,8 @@ module Hubspot
       # NOTE: problem with batch api endpoint
       # {https://developers.hubspot.com/docs/methods/contacts/get_contact}
       # {https://developers.hubspot.com/docs/methods/contacts/get_batch_by_vid}
-      def find_by_id(vids)
+      def find_by_id(vids, opts={})
+        raw = opts.delete(:raw) { false } 
         batch_mode, path, params = case vids
         when Integer then [false, GET_CONTACT_BY_ID_PATH, { contact_id: vids }]
         when Array then [true, CONTACT_BATCH_PATH, { batch_vid: vids }]
@@ -89,7 +90,7 @@ module Hubspot
 
         response = Hubspot::Connection.get_json(path, params)
         raise Hubspot::ApiError if batch_mode
-        new(response)
+        raw ? response : new(response)
       end
 
       # {https://developers.hubspot.com/docs/methods/contacts/get_contact_by_email}
