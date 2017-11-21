@@ -74,12 +74,13 @@ module Hubspot
       # {http://developers.hubspot.com/docs/methods/companies/get_company}
       # @param id [Integer] company id to search by
       # @return [Hubspot::Company] Company record
-      def find_by_id(id)
+      def find_by_id(id, opts={})
+        raw = opts.delete(:raw) { false } 
         path = GET_COMPANY_BY_ID_PATH
         params = { company_id: id }
         raise Hubspot::InvalidParams, 'expecting Integer parameter' unless id.try(:is_a?, Integer)
         response = Hubspot::Connection.get_json(path, params)
-        new(response)
+        raw ? response : new(response)
       end
 
       # Creates a company with a name
