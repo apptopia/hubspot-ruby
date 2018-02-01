@@ -1,0 +1,237 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.hubapi.com/contacts/v1/contact/createOrUpdate/email/fooUhkoU8ee@example.com?hapikey=demo
+    body:
+      encoding: UTF-8
+      string: '{"properties":[{"property":"firstname","value":"FooUhkoU8ee"},{"property":"email","value":"fooUhkoU8ee@example.com"}]}'
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 01 Feb 2018 13:09:35 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d7a33733b5931ad88f270e6ac6151f4b41517490574; expires=Fri, 01-Feb-19
+        13:09:34 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding
+      - Accept-Encoding
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3e65255a5a30820d-KBP
+    body:
+      encoding: UTF-8
+      string: '{"vid":5939274,"isNew":false}'
+    http_version: 
+  recorded_at: Thu, 01 Feb 2018 13:09:35 GMT
+- request:
+    method: get
+    uri: https://api.hubapi.com/contacts/v1/contact/email/fooUhkoU8ee@example.com/profile?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 01 Feb 2018 13:09:35 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d71bd71ed5d58cefcac4ec78356dd131b1517490575; expires=Fri, 01-Feb-19
+        13:09:35 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding
+      - Accept-Encoding
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3e65255f19078b1c-KBP
+    body:
+      encoding: UTF-8
+      string: '{"vid":5939274,"canonical-vid":5939274,"merged-vids":[],"portal-id":62515,"is-contact":true,"profile-token":"AO_T-mOAByRfO1_suuK4yY6jV_hvu9G1E_aXPZZfY-iKN_y9QmsPZXwWd-diySUdwDbiVxKIo4OLy5pDuvWjSH1eox6x82_m5X_bABnfVvbCfyYOrXGBuoVGFfanLJ3vrZLoY3YEQmf1","profile-url":"https://app.hubspot.com/contacts/62515/lists/public/contact/_AO_T-mOAByRfO1_suuK4yY6jV_hvu9G1E_aXPZZfY-iKN_y9QmsPZXwWd-diySUdwDbiVxKIo4OLy5pDuvWjSH1eox6x82_m5X_bABnfVvbCfyYOrXGBuoVGFfanLJ3vrZLoY3YEQmf1/","properties":{"associatedcompanyid":{"value":"117000871","versions":[{"value":"117000871","source-type":"COMPANIES","source-id":"WriteAssociatedCompanyIdStep","source-label":null,"timestamp":1517490206150,"selected":false}]},"firstname":{"value":"FooUhkoU8ee","versions":[{"value":"FooUhkoU8ee","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490204628,"selected":false}]},"hs_email_optout_354586":{"value":"","versions":[{"value":"","source-type":"EMAIL","source-id":"Updated
+        in response to a contact being created.","source-label":"foouhkou8ee@example.com","timestamp":1517490204631,"selected":false}]},"num_unique_conversion_events":{"value":"0","versions":[{"value":"0","source-type":"CALCULATED","source-id":null,"source-label":null,"timestamp":0,"selected":false}]},"hs_analytics_revenue":{"value":"0.0","versions":[{"value":"0.0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_email_quarantined":{"value":"","versions":[{"value":"","source-type":"EMAIL","source-id":"Updated
+        in response to a contact being created.","source-label":"foouhkou8ee@example.com","timestamp":1517490204631,"selected":false}]},"createdate":{"value":"1517490204631","versions":[{"value":"1517490204631","source-type":"API","source-id":"contact-upsert","source-label":null,"timestamp":1517490204631,"selected":false}]},"hs_social_num_broadcast_clicks":{"value":"0","versions":[{"value":"0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_analytics_last_timestamp":{"value":"","versions":[{"value":"","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_email_optout":{"value":"","versions":[{"value":"","source-type":"EMAIL","source-id":"Updated
+        in response to a contact being created.","source-label":"foouhkou8ee@example.com","timestamp":1517490204631,"selected":false}]},"hs_predictivecontactscore":{"value":"48","versions":[{"value":"48","source-type":"TASK","source-id":"predictive-contact-scoring","source-label":"198067","timestamp":1517490209022,"selected":false},{"value":"49","source-type":"TASK","source-id":"predictive-contact-scoring","source-label":"198067","timestamp":1517490205455,"selected":false}]},"hs_analytics_num_visits":{"value":"0","versions":[{"value":"0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_social_linkedin_clicks":{"value":"0","versions":[{"value":"0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_analytics_last_visit_timestamp":{"value":"","versions":[{"value":"","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_social_last_engagement":{"value":"","versions":[{"value":"","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"associatedcompanylastupdated":{"value":"3753740568176710","versions":[{"value":"3753740568176710","source-type":"COMPANIES","source-id":"WriteAssociatedCompanyIdStep","source-label":null,"timestamp":1517490206150,"selected":false}]},"hs_analytics_source":{"value":"OFFLINE","versions":[{"value":"OFFLINE","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_analytics_first_touch_converting_campaign":{"value":"","versions":[{"value":"","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_analytics_num_page_views":{"value":"0","versions":[{"value":"0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_email_domain":{"value":"example.com","versions":[{"value":"example.com","source-type":"CALCULATED","source-id":null,"source-label":null,"timestamp":0,"selected":false}]},"email":{"value":"foouhkou8ee@example.com","versions":[{"value":"foouhkou8ee@example.com","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490204628,"selected":false}]},"hs_predictivecontactscorebucket":{"value":"bucket_2","versions":[{"value":"bucket_2","source-type":"TASK","source-id":"predictive-contact-scoring","source-label":"198067","timestamp":1517490205455,"selected":false}]},"hubspotscore":{"value":"30","versions":[{"value":"30","source-type":"WAL_INCREMENTAL","source-id":"csrsu-kafka","source-label":null,"timestamp":1517490206968,"selected":false}]},"hs_analytics_first_visit_timestamp":{"value":"","versions":[{"value":"","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_analytics_first_timestamp":{"value":"1517490204631","versions":[{"value":"1517490204631","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"lastmodifieddate":{"value":"1517490213203","versions":[{"value":"1517490213203","source-type":"CALCULATED","source-id":null,"source-label":null,"timestamp":1517490213203,"selected":false}]},"hs_analytics_last_touch_converting_campaign":{"value":"","versions":[{"value":"","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_social_google_plus_clicks":{"value":"0","versions":[{"value":"0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_email_optout_4447431":{"value":"","versions":[{"value":"","source-type":"EMAIL","source-id":"Updated
+        in response to a contact being created.","source-label":"foouhkou8ee@example.com","timestamp":1517490204631,"selected":false}]},"hs_lifecyclestage_subscriber_date":{"value":"1517490204631","versions":[{"value":"1517490204631","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490204631,"selected":false}]},"hs_analytics_average_page_views":{"value":"0","versions":[{"value":"0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_email_optout_1281663":{"value":"","versions":[{"value":"","source-type":"EMAIL","source-id":"Updated
+        in response to a contact being created.","source-label":"foouhkou8ee@example.com","timestamp":1517490204631,"selected":false}]},"hs_email_optout_230318":{"value":"","versions":[{"value":"","source-type":"EMAIL","source-id":"Updated
+        in response to a contact being created.","source-label":"foouhkou8ee@example.com","timestamp":1517490204631,"selected":false}]},"hs_social_facebook_clicks":{"value":"0","versions":[{"value":"0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"num_conversion_events":{"value":"0","versions":[{"value":"0","source-type":"CALCULATED","source-id":null,"source-label":null,"timestamp":0,"selected":false}]},"hs_analytics_num_event_completions":{"value":"0","versions":[{"value":"0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_analytics_source_data_2":{"value":"contact-upsert","versions":[{"value":"contact-upsert","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490211794,"selected":false},{"value":"","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_social_twitter_clicks":{"value":"0","versions":[{"value":"0","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"hs_analytics_source_data_1":{"value":"API","versions":[{"value":"API","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490211794,"selected":false},{"value":"","source-type":"ANALYTICS","source-id":"ContactAnalyticsDetailsUpdateWorker","source-label":null,"timestamp":1517490206696,"selected":false}]},"lifecyclestage":{"value":"subscriber","versions":[{"value":"subscriber","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490204631,"selected":false}]},"hs_email_optout_2849":{"value":"","versions":[{"value":"","source-type":"EMAIL","source-id":"Updated
+        in response to a contact being created.","source-label":"foouhkou8ee@example.com","timestamp":1517490204631,"selected":false}]}},"form-submissions":[],"list-memberships":[],"identity-profiles":[{"vid":5939274,"saved-at-timestamp":1517490204643,"deleted-changed-timestamp":0,"identities":[{"type":"EMAIL","value":"foouhkou8ee@example.com","timestamp":1517490204631,"is-primary":true},{"type":"LEAD_GUID","value":"b1ec4ebe-562d-4142-b8c5-73cd66fb434c","timestamp":1517490204639}]}],"merge-audits":[],"associated-company":{"company-id":117000871,"portal-id":62515,"properties":{"country":{"value":"United
+        States"},"city":{"value":"Concord"},"num_associated_contacts":{"value":"830"},"timezone":{"value":"America/Los_Angeles"},"createdate":{"value":"1458391823423"},"description":{"value":"A
+        far better description than before"},"total_money_raised":{"value":""},"web_technologies":{"value":"digital_ocean"},"days_to_close":{"value":"18"},"hs_analytics_last_timestamp":{"value":"1516383005067"},"numberofemployees":{"value":"10"},"hs_analytics_num_visits":{"value":"5"},"linkedin_company_page":{"value":"http://www.linkedin.com/company/3245735"},"recent_conversion_event_name":{"value":"BLX
+        Contact Form"},"hs_analytics_last_visit_timestamp":{"value":"1516383005067"},"hs_analytics_source":{"value":"DIRECT_TRAFFIC"},"num_contacted_notes":{"value":"6"},"about_us":{"value":"Thumbs
+        up!"},"annualrevenue":{"value":"10000000"},"founded_year":{"value":"1992"},"hs_analytics_first_touch_converting_campaign":{"value":""},"hs_analytics_num_page_views":{"value":"4"},"state":{"value":"CA"},"linkedinbio":{"value":"Ringalytics
+        is an advertising platform for playing interactive audio-based ads on telephone
+        calls. On the supply side, we help publishers of business directory information
+        monetize phone calls originating from their sites. On the demand side, we
+        offer the engagement of a captive play audio ad combined with the targeting
+        efficacy of web based advertising, and layer on top of this interactive SMS
+        capabilities for response-focused marketers."},"notes_next_activity_date":{"value":""},"zip":{"value":"94520"},"notes_last_updated":{"value":"1464686263054"},"website":{"value":"example.com"},"address":{"value":"4020
+        Nelson Ave, Ste 200"},"closedate":{"value":"1459980724598"},"hs_analytics_first_visit_timestamp":{"value":"1478107607797"},"hs_analytics_first_timestamp":{"value":"1478107607787"},"first_conversion_date":{"value":"1479682500284"},"hs_analytics_last_touch_converting_campaign":{"value":""},"engagements_last_meeting_booked":{"value":""},"first_contact_createdate":{"value":"1478107607787"},"hs_lastmodifieddate":{"value":"1517490206559"},"notes_last_contacted":{"value":"1464686263054"},"phone":{"value":"1
+        (925) 682-3740"},"num_conversion_events":{"value":"20"},"domain":{"value":"example.com"},"is_public":{"value":"false"},"name":{"value":"A
+        company name"},"recent_conversion_date":{"value":"1516383005067"},"hs_analytics_source_data_2":{"value":""},"hs_analytics_source_data_1":{"value":""},"first_conversion_event_name":{"value":"Form1"},"num_notes":{"value":"6"}}}}'
+    http_version: 
+  recorded_at: Thu, 01 Feb 2018 13:09:36 GMT
+- request:
+    method: post
+    uri: https://api.hubapi.com/contacts/v1/contact?hapikey=demo
+    body:
+      encoding: UTF-8
+      string: '{"properties":[{"property":"firstname","value":"FooUhkoU8ee"},{"property":"email","value":"barUhkoU8ee@example.com"}]}'
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 01 Feb 2018 13:09:36 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=db6280088263d97685e3d48f7e01b646b1517490576; expires=Fri, 01-Feb-19
+        13:09:36 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding
+      - Accept-Encoding
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3e652564ed488261-KBP
+    body:
+      encoding: UTF-8
+      string: '{"vid":5939324,"canonical-vid":5939324,"merged-vids":[],"portal-id":62515,"is-contact":true,"profile-token":"AO_T-mO_8AjrRgOjed-ljsSBD_7J9op-8yzxngjHp1sBZV4WRHPOOLdCiBjCnr38mW0mf_yFSokyLgsIoKCv9ZUl5hQebuFvNngqOt7K13Ktu8aidOhyc1EggTdxxQEL-7W-L8Ofi-TQ","profile-url":"https://app.hubspot.com/contacts/62515/lists/public/contact/_AO_T-mO_8AjrRgOjed-ljsSBD_7J9op-8yzxngjHp1sBZV4WRHPOOLdCiBjCnr38mW0mf_yFSokyLgsIoKCv9ZUl5hQebuFvNngqOt7K13Ktu8aidOhyc1EggTdxxQEL-7W-L8Ofi-TQ/","properties":{"firstname":{"value":"FooUhkoU8ee","versions":[{"value":"FooUhkoU8ee","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490576630,"selected":false}]},"createdate":{"value":"1517490576633","versions":[{"value":"1517490576633","source-type":"API","source-id":"Contacts","source-label":null,"timestamp":1517490576633,"selected":false}]},"email":{"value":"baruhkou8ee@example.com","versions":[{"value":"baruhkou8ee@example.com","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490576630,"selected":false}]}},"form-submissions":[],"list-memberships":[],"identity-profiles":[{"vid":5939324,"is-deleted":false,"is-contact":false,"pointer-vid":0,"previous-vid":0,"linked-vids":[],"saved-at-timestamp":0,"deleted-changed-timestamp":0,"identities":[{"type":"EMAIL","value":"baruhkou8ee@example.com","timestamp":1517490576633,"is-primary":true,"source":"UNSPECIFIED"},{"type":"LEAD_GUID","value":"57e439cd-83d1-4568-9f6b-7ca525c4251d","timestamp":1517490576637,"source":"UNSPECIFIED"}]}],"merge-audits":[]}'
+    http_version: 
+  recorded_at: Thu, 01 Feb 2018 13:09:36 GMT
+- request:
+    method: post
+    uri: https://api.hubapi.com/contacts/v1/contact/createOrUpdate/email/barUhkoU8ee@example.com?hapikey=demo
+    body:
+      encoding: UTF-8
+      string: '{"properties":[{"property":"firstname","value":"BarUhkoU8ee"},{"property":"email","value":"barUhkoU8ee@example.com"}]}'
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 01 Feb 2018 13:09:38 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=de42aed7a929e647fbc902b4d330361a21517490577; expires=Fri, 01-Feb-19
+        13:09:37 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding
+      - Accept-Encoding
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3e65257078b38237-KBP
+    body:
+      encoding: UTF-8
+      string: '{"vid":5939324,"isNew":false}'
+    http_version: 
+  recorded_at: Thu, 01 Feb 2018 13:09:38 GMT
+- request:
+    method: get
+    uri: https://api.hubapi.com/contacts/v1/contact/email/barUhkoU8ee@example.com/profile?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Thu, 01 Feb 2018 13:09:39 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d2359adc7bc15b64c34bad56e77dd0b7e1517490578; expires=Fri, 01-Feb-19
+        13:09:38 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding
+      - Accept-Encoding
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3e6525749bf983e8-KBP
+    body:
+      encoding: UTF-8
+      string: '{"vid":5939324,"canonical-vid":5939324,"merged-vids":[],"portal-id":62515,"is-contact":true,"profile-token":"AO_T-mOzdgTf44emgaOhQzVehdULjIPi7V7LZNjJA6u0UjW0V1kImIsOvTbMIC9y1ZWCNHHwsWeEb7MA1aa2iWhhNoIF573A1k_-A7A1ozvoYAWF4MgCdMBrrP5bQ6tw8SqqN6YdxH_2","profile-url":"https://app.hubspot.com/contacts/62515/lists/public/contact/_AO_T-mOzdgTf44emgaOhQzVehdULjIPi7V7LZNjJA6u0UjW0V1kImIsOvTbMIC9y1ZWCNHHwsWeEb7MA1aa2iWhhNoIF573A1k_-A7A1ozvoYAWF4MgCdMBrrP5bQ6tw8SqqN6YdxH_2/","properties":{"associatedcompanyid":{"value":"117000871","versions":[{"value":"117000871","source-type":"COMPANIES","source-id":"WriteAssociatedCompanyIdStep","source-label":null,"timestamp":1517490577185,"selected":false}]},"firstname":{"value":"BarUhkoU8ee","versions":[{"value":"BarUhkoU8ee","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490578447,"selected":false},{"value":"FooUhkoU8ee","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490576630,"selected":false}]},"hubspotscore":{"value":"30","versions":[{"value":"30","source-type":"WAL_INCREMENTAL","source-id":"csrsu-kafka","source-label":null,"timestamp":1517490577616,"selected":false}]},"associatedcompanylastupdated":{"value":"3754111602476072","versions":[{"value":"3754111602476072","source-type":"COMPANIES","source-id":"WriteAssociatedCompanyIdStep","source-label":null,"timestamp":1517490577185,"selected":false}]},"lastmodifieddate":{"value":"1517490578460","versions":[{"value":"1517490578460","source-type":"CALCULATED","source-id":null,"source-label":null,"timestamp":1517490578460,"selected":false}]},"num_conversion_events":{"value":"0","versions":[{"value":"0","source-type":"CALCULATED","source-id":null,"source-label":null,"timestamp":0,"selected":false}]},"num_unique_conversion_events":{"value":"0","versions":[{"value":"0","source-type":"CALCULATED","source-id":null,"source-label":null,"timestamp":0,"selected":false}]},"createdate":{"value":"1517490576633","versions":[{"value":"1517490576633","source-type":"API","source-id":"Contacts","source-label":null,"timestamp":1517490576633,"selected":false}]},"hs_email_domain":{"value":"example.com","versions":[{"value":"example.com","source-type":"CALCULATED","source-id":null,"source-label":null,"timestamp":0,"selected":false}]},"hs_lifecyclestage_subscriber_date":{"value":"1517490576633","versions":[{"value":"1517490576633","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490576633,"selected":false}]},"lifecyclestage":{"value":"subscriber","versions":[{"value":"subscriber","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490576633,"selected":false}]},"email":{"value":"baruhkou8ee@example.com","versions":[{"value":"baruhkou8ee@example.com","source-type":"API","source-id":null,"source-label":null,"timestamp":1517490576630,"selected":false}]}},"form-submissions":[],"list-memberships":[],"identity-profiles":[{"vid":5939324,"saved-at-timestamp":1517490576641,"deleted-changed-timestamp":0,"identities":[{"type":"EMAIL","value":"baruhkou8ee@example.com","timestamp":1517490576633,"is-primary":true},{"type":"LEAD_GUID","value":"57e439cd-83d1-4568-9f6b-7ca525c4251d","timestamp":1517490576637}]}],"merge-audits":[],"associated-company":{"company-id":117000871,"portal-id":62515,"properties":{"country":{"value":"United
+        States"},"city":{"value":"Concord"},"num_associated_contacts":{"value":"831"},"timezone":{"value":"America/Los_Angeles"},"createdate":{"value":"1458391823423"},"description":{"value":"A
+        far better description than before"},"total_money_raised":{"value":""},"web_technologies":{"value":"digital_ocean"},"days_to_close":{"value":"18"},"hs_analytics_last_timestamp":{"value":"1516383005067"},"numberofemployees":{"value":"10"},"hs_analytics_num_visits":{"value":"5"},"linkedin_company_page":{"value":"http://www.linkedin.com/company/3245735"},"recent_conversion_event_name":{"value":"BLX
+        Contact Form"},"hs_analytics_last_visit_timestamp":{"value":"1516383005067"},"hs_analytics_source":{"value":"DIRECT_TRAFFIC"},"num_contacted_notes":{"value":"6"},"about_us":{"value":"Thumbs
+        up!"},"annualrevenue":{"value":"10000000"},"founded_year":{"value":"1992"},"hs_analytics_first_touch_converting_campaign":{"value":""},"hs_analytics_num_page_views":{"value":"4"},"state":{"value":"CA"},"linkedinbio":{"value":"Ringalytics
+        is an advertising platform for playing interactive audio-based ads on telephone
+        calls. On the supply side, we help publishers of business directory information
+        monetize phone calls originating from their sites. On the demand side, we
+        offer the engagement of a captive play audio ad combined with the targeting
+        efficacy of web based advertising, and layer on top of this interactive SMS
+        capabilities for response-focused marketers."},"notes_next_activity_date":{"value":""},"zip":{"value":"94520"},"notes_last_updated":{"value":"1464686263054"},"website":{"value":"example.com"},"address":{"value":"4020
+        Nelson Ave, Ste 200"},"closedate":{"value":"1459980724598"},"hs_analytics_first_visit_timestamp":{"value":"1478107607797"},"hs_analytics_first_timestamp":{"value":"1478107607787"},"first_conversion_date":{"value":"1479682500284"},"hs_analytics_last_touch_converting_campaign":{"value":""},"engagements_last_meeting_booked":{"value":""},"first_contact_createdate":{"value":"1478107607787"},"hs_lastmodifieddate":{"value":"1517490577561"},"notes_last_contacted":{"value":"1464686263054"},"phone":{"value":"1
+        (925) 682-3740"},"num_conversion_events":{"value":"20"},"domain":{"value":"example.com"},"is_public":{"value":"false"},"name":{"value":"A
+        company name"},"recent_conversion_date":{"value":"1516383005067"},"hs_analytics_source_data_2":{"value":""},"hs_analytics_source_data_1":{"value":""},"first_conversion_event_name":{"value":"Form1"},"num_notes":{"value":"6"}}}}'
+    http_version: 
+  recorded_at: Thu, 01 Feb 2018 13:09:39 GMT
+recorded_with: VCR 2.4.0

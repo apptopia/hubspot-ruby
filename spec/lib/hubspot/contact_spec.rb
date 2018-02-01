@@ -4,6 +4,7 @@ describe Hubspot::Contact do
       HTTParty.get("https://api.hubapi.com/contacts/v1/contact/email/testingapis@hubspot.com/profile?hapikey=demo").parsed_response
     end
   end
+  let(:logger) { mock('logger') }
 
   before{ Hubspot.configure(hapikey: "demo") }
 
@@ -22,6 +23,7 @@ describe Hubspot::Contact do
     cassette "contact_create"
     let(:params){{}}
     subject{ Hubspot::Contact.create!(email, params) }
+
     context "with a new email" do
       let(:email){ "newcontact#{Time.now.to_i}@hsgem.com" }
       it{ should be_an_instance_of Hubspot::Contact }
@@ -35,6 +37,7 @@ describe Hubspot::Contact do
         its(["lastname"]){ should == "Jackman"}
       end
     end
+
     context "with an existing email" do
       cassette "contact_create_existing_email"
       let(:email){ "testingapis@hubspot.com" }
@@ -42,11 +45,21 @@ describe Hubspot::Contact do
         expect{ subject }.to raise_error Hubspot::RequestError
       end
     end
+
     context "with an invalid email" do
       cassette "contact_create_invalid_email"
       let(:email){ "not_an_email" }
       it "raises a RequestError" do
         expect{ subject }.to raise_error Hubspot::RequestError
+      end
+    end
+
+    context 'with logger' do
+      let(:email){ "newcontact#{Time.now.to_i}@hsgem.com" }
+      let(:params){ {logger: logger} }
+      it 'logs request' do
+        mock(logger).log(:post, anything, anything, anything, anything){ true }
+        subject
       end
     end
   end
@@ -55,9 +68,6 @@ describe Hubspot::Contact do
     cassette 'create_or_update'
     let(:existing_contact) do
       Hubspot::Contact.create!("morpheus@example.com", firstname: 'Morpheus')
-    end
-    before do
-      Hubspot::Contact.create_or_update!(params)
     end
 
     let(:params) do
@@ -75,11 +85,49 @@ describe Hubspot::Contact do
     end
 
     it 'creates and updates contacts' do
+      Hubspot::Contact.create_or_update!(params)
       contact = Hubspot::Contact.find_by_id existing_contact.vid
       expect(contact.properties['firstname']).to eql 'Neo'
       latest_contact_email = Hubspot::Contact.all(recent: true).first.email
       new_contact = Hubspot::Contact.find_by_email(latest_contact_email)
       expect(new_contact.properties['firstname']).to eql 'Smith'
+    end
+
+    context 'with logger' do
+      it 'logs request' do
+        mock(logger).log(:post, anything, anything, anything, anything){ true }
+        Hubspot::Contact.create_or_update!(params, {logger: logger})
+      end
+    end
+  end
+
+  describe '.create_or_update_by_email!' do
+    cassette 'create_or_update_by_email'
+    let(:salt) { 'UhkoU8ee' }
+    let(:created) { 'createdate' }
+    let(:create_email) { "foo#{salt}@example.com" }
+    let(:update_email) { "bar#{salt}@example.com" }
+    let(:name) { "Foo#{salt}" }
+    let(:updated_name) { "Bar#{salt}" }
+
+    it 'creates contact' do
+      Hubspot::Contact.create_or_update_by_email!(create_email, {firstname: name})
+      created_contact = Hubspot::Contact.find_by_email(create_email)
+      expect(created_contact.properties['firstname']).to eql(name)
+    end
+
+    it 'updates contact' do
+      Hubspot::Contact.create!(update_email, firstname: name)
+      Hubspot::Contact.create_or_update_by_email!(update_email, {firstname: updated_name})
+      created_contact = Hubspot::Contact.find_by_email(update_email)
+      expect(created_contact.properties['firstname']).to eql(updated_name)
+    end
+
+    context 'with logger' do
+      it 'logs request' do
+        mock(logger).log(:post, anything, anything, anything, anything){ true }
+        Hubspot::Contact.create_or_update_by_email!(create_email, {logger: logger})
+      end
     end
   end
 
@@ -87,37 +135,54 @@ describe Hubspot::Contact do
     context 'given an uniq email' do
       cassette "contact_find_by_email"
       subject{ Hubspot::Contact.find_by_email(email) }
+      let(:email){ "testingapis@hubspot.com" }
 
       context "when the contact is found" do
-        let(:email){ "testingapis@hubspot.com" }
         it{ should be_an_instance_of Hubspot::Contact }
         its(:vid){ should == 82325 }
       end
 
       context "when the contact cannot be found" do
-        it 'raises an error' do 
+        it 'raises an error' do
           expect { Hubspot::Contact.find_by_email('notacontact@test.com') }.to raise_error(Hubspot::RequestError)
+        end
+      end
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, anything, anything, anything, anything){ true }
+          Hubspot::Contact.find_by_email(email, {logger: logger})
         end
       end
     end
 
     context 'batch mode' do
       cassette "contact_find_by_email_batch_mode"
-      subject { Hubspot::Contact.find_by_email(['testingapis@hubspot.com', 'testingapisawesomeandstuff@hubspot.com']) }
+      subject { Hubspot::Contact.find_by_email(emails) }
+      let(:emails) { ['testingapis@hubspot.com', 'testingapisawesomeandstuff@hubspot.com'] }
+
       it { should be_a Array }
       its(:count) { should eql 1 }
       its(:first) { should be_a Hubspot::Contact }
-      its('first.email') { should eql 'testingapis@hubspot.com' }
+      its('first.email') { should eql emails[0] }
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, anything, anything, anything, anything){ true }
+          Hubspot::Contact.find_by_email(emails, {logger: logger})
+        end
+      end
     end
   end
 
   describe ".find_by_id" do
-    context 'given an uniq id' do 
+    let(:vid){ 82325 }
+
+    context 'given an uniq id' do
       cassette "contact_find_by_id"
       subject{ Hubspot::Contact.find_by_id(vid) }
 
       context "when the contact is found" do
-        let(:vid){ 82325 }
         it{ should be_an_instance_of Hubspot::Contact }
         its(:email){ should == "testingapis@hubspot.com" }
       end
@@ -127,41 +192,55 @@ describe Hubspot::Contact do
           expect { Hubspot::Contact.find_by_id(9999999) }.to raise_error(Hubspot::RequestError) 
         end
       end
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, anything, anything, anything, anything){ true }
+          Hubspot::Contact.find_by_id(vid, {logger: logger})
+        end
+      end
     end
 
-    context 'batch mode' do 
+    context 'batch mode' do
       cassette "contact_find_by_id_batch_mode"
 
       # NOTE: error currently appends on API endpoint
       it 'find lists of contacts' do
-        expect { Hubspot::Contact.find_by_id([82325]) }.to raise_error(Hubspot::ApiError)
+        expect { Hubspot::Contact.find_by_id([vid]) }.to raise_error(Hubspot::ApiError)
       end
     end
   end
 
   describe ".find_by_utk" do
-    context 'given an uniq utk' do 
+    context 'given an uniq utk' do
       cassette "contact_find_by_utk"
       subject{ Hubspot::Contact.find_by_utk(utk) }
+      let(:utk){ "f844d2217850188692f2610c717c2e9b" }
 
       context "when the contact is found" do
-        let(:utk){ "f844d2217850188692f2610c717c2e9b" }
         it{ should be_an_instance_of Hubspot::Contact }
-        its(:utk){ should == "f844d2217850188692f2610c717c2e9b" }
+        its(:utk){ should == utk }
       end
 
       context "when the contact cannot be found" do
-        it 'raises an error' do 
+        it 'raises an error' do
           expect { Hubspot::Contact.find_by_utk("invalid") }.to raise_error(Hubspot::RequestError) 
+        end
+      end
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, anything, anything, anything, anything){ true }
+          Hubspot::Contact.find_by_utk(utk, {logger: logger})
         end
       end
     end
 
-    context 'batch mode' do 
+    context 'batch mode' do
       cassette "contact_find_by_utk_batch_mode"
+      let(:utks) { ['f844d2217850188692f2610c717c2e9b', 'j94344d22178501692f2610c717c2e9b'] }
 
       it 'find lists of contacts' do
-        utks = ['f844d2217850188692f2610c717c2e9b', 'j94344d22178501692f2610c717c2e9b']
         expect { Hubspot::Contact.find_by_utk(utks) }.to raise_error(Hubspot::ApiError)
       end
     end
@@ -169,7 +248,7 @@ describe Hubspot::Contact do
 
 
   describe '.all' do
-    context 'all contacts' do 
+    context 'all contacts' do
       cassette 'find_all_contacts'
 
       it 'must get the contacts list' do
@@ -208,7 +287,7 @@ describe Hubspot::Contact do
       end
     end
 
-    context 'recent contacts' do 
+    context 'recent contacts' do
       cassette 'find_all_recent_contacts'
 
       it 'must get the contacts list' do
@@ -232,6 +311,15 @@ describe Hubspot::Contact do
         expect(response['has-more']).to eq(true)
       end
     end
+
+    context 'with logger' do
+      cassette 'find_all_contacts'
+
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        Hubspot::Contact.all(logger: logger)
+      end
+    end
   end
 
   describe "#update!" do
@@ -250,6 +338,15 @@ describe Hubspot::Contact do
         expect{ subject }.to raise_error Hubspot::RequestError
       end
     end
+
+    context 'with logger' do
+      let(:params){ {firstname: "Steve", lastname: "Cunningham", logger: logger} }
+
+      it 'logs request' do
+        mock(logger).log(:post, anything, anything, anything, anything){ true }
+        subject
+      end
+    end
   end
 
   describe "#destroy!" do
@@ -261,11 +358,21 @@ describe Hubspot::Contact do
       subject
       contact.destroyed?.should be_true
     end
+
     context "when the request is not successful" do
       let(:contact){ Hubspot::Contact.new({"vid" => "invalid", "properties" => {}})}
       it "raises an error" do
         expect{ subject }.to raise_error Hubspot::RequestError
         contact.destroyed?.should be_false
+      end
+    end
+
+    context 'with logger' do
+      subject{ contact.destroy!(logger: logger) }
+
+      it 'logs request' do
+        mock(logger).log(:delete, anything, anything, anything, anything){ true }
+        subject
       end
     end
   end

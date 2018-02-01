@@ -23,21 +23,25 @@ module Hubspot
     class << self
       # {https://developers.hubspot.com/docs/methods/contacts/create_contact}
       def create!(email, params={})
+        logger = params.delete(:logger) { false }
         params_with_email = params.stringify_keys.merge("email" => email)
         post_data = {properties: Hubspot::Utils.hash_to_properties(params_with_email)}
-        response = Hubspot::Connection.post_json(CREATE_CONTACT_PATH, params: {}, body: post_data )
+        response = Hubspot::Connection.post_json(CREATE_CONTACT_PATH,
+                                                 params: {},
+                                                 body: post_data,
+                                                 logger: logger)
         new(response)
       end
 
       # {https://developers.hubspot.com/docs/methods/contacts/get_contacts}
       # {https://developers.hubspot.com/docs/methods/contacts/get_recently_updated_contacts}
       def all(opts={})
-        raw = opts.delete(:raw) { false } 
-        recent = opts.delete(:recent) { false } 
-        path, opts = 
-        if recent 
-          [RECENT_CONTACTS_PATH, Hubspot::ContactProperties.add_default_parameters(opts)] 
-        else 
+        raw = opts.delete(:raw) { false }
+        recent = opts.delete(:recent) { false }
+        path, opts =
+        if recent
+          [RECENT_CONTACTS_PATH, Hubspot::ContactProperties.add_default_parameters(opts)]
+        else
           [CONTACTS_PATH, opts]
         end
 
@@ -48,7 +52,8 @@ module Hubspot
       # TODO: Add non-batch support: {https://developers.hubspot.com/docs/methods/contacts/create_or_update}
       # NOTE: Performance is best when calls are limited to 100 or fewer contacts
       # {https://developers.hubspot.com/docs/methods/contacts/batch_create_or_update}
-      def create_or_update!(contacts)
+      def create_or_update!(contacts, opts={})
+        logger = opts.delete(:logger) { false }
         query = contacts.map do |ch|
           contact_hash = ch.with_indifferent_access
           contact_param = {
@@ -65,26 +70,32 @@ module Hubspot
         end
         Hubspot::Connection.post_json(BATCH_CREATE_OR_UPDATE_PATH,
                                       params: {},
-                                      body: query)
+                                      body: query,
+                                      logger: logger)
       end
 
       # {http://developers.hubspot.com/docs/methods/contacts/create_or_update}
       def create_or_update_by_email!(email, params={})
+        logger = params.delete(:logger) { false }
         params_with_email = params.stringify_keys
         params_with_email["email"] ||= email
         post_data = {properties: Hubspot::Utils.hash_to_properties(params_with_email)}
 
-        Hubspot::Connection.post_json(CREATE_OR_UPDATE_PATH, params: {contact_email: email}.stringify_keys, body: post_data)
+        Hubspot::Connection.post_json(CREATE_OR_UPDATE_PATH,
+                                      params: {contact_email: email}.stringify_keys,
+                                      body: post_data,
+                                      logger: logger)
       end
 
       # NOTE: problem with batch api endpoint
       # {https://developers.hubspot.com/docs/methods/contacts/get_contact}
       # {https://developers.hubspot.com/docs/methods/contacts/get_batch_by_vid}
       def find_by_id(vids, opts={})
+        logger = opts.delete(:logger) { false }
         raw = opts.delete(:raw) { false } 
         batch_mode, path, params = case vids
-        when Integer then [false, GET_CONTACT_BY_ID_PATH, { contact_id: vids }]
-        when Array then [true, CONTACT_BATCH_PATH, { batch_vid: vids }]
+        when Integer then [false, GET_CONTACT_BY_ID_PATH, { contact_id: vids, logger: logger }]
+        when Array then [true, CONTACT_BATCH_PATH, { batch_vid: vids, logger: logger }]
         else raise Hubspot::InvalidParams, 'expecting Integer or Array of Integers parameter'
         end
 
@@ -95,10 +106,11 @@ module Hubspot
 
       # {https://developers.hubspot.com/docs/methods/contacts/get_contact_by_email}
       # {https://developers.hubspot.com/docs/methods/contacts/get_batch_by_email}
-      def find_by_email(emails)
+      def find_by_email(emails, opts={})
+        logger = opts.delete(:logger) { false }
         batch_mode, path, params = case emails
-        when String then [false, GET_CONTACT_BY_EMAIL_PATH, { contact_email: emails }]
-        when Array then [true, GET_CONTACTS_BY_EMAIL_PATH, { batch_email: emails }]
+        when String then [false, GET_CONTACT_BY_EMAIL_PATH, { contact_email: emails, logger: logger }]
+        when Array then [true, GET_CONTACTS_BY_EMAIL_PATH, { batch_email: emails, logger: logger }]
         else raise Hubspot::InvalidParams, 'expecting String or Array of Strings parameter'
         end
 
@@ -113,10 +125,11 @@ module Hubspot
       # NOTE: problem with batch api endpoint
       # {https://developers.hubspot.com/docs/methods/contacts/get_contact_by_utk}
       # {https://developers.hubspot.com/docs/methods/contacts/get_batch_by_utk} 
-      def find_by_utk(utks)
+      def find_by_utk(utks, opts={})
+        logger = opts.delete(:logger) { false }
         batch_mode, path, params = case utks
-        when String then [false, GET_CONTACT_BY_UTK_PATH, { contact_utk: utks }]
-        when Array then [true, GET_CONTACTS_BY_UTK_PATH, { batch_utk: utks }]
+        when String then [false, GET_CONTACT_BY_UTK_PATH, { contact_utk: utks, logger: logger }]
+        when Array then [true, GET_CONTACTS_BY_UTK_PATH, { batch_utk: utks, logger: logger }]
         else raise Hubspot::InvalidParams, 'expecting String or Array of Strings parameter'
         end
 
@@ -156,8 +169,12 @@ module Hubspot
     # @param params [Hash] hash of properties to update
     # @return [Hubspot::Contact] self
     def update!(params)
+      logger = params.delete(:logger) { false }
       query = {"properties" => Hubspot::Utils.hash_to_properties(params.stringify_keys!)}
-      response = Hubspot::Connection.post_json(UPDATE_CONTACT_PATH, params: { contact_id: vid }, body: query)
+      response = Hubspot::Connection.post_json(UPDATE_CONTACT_PATH,
+                                               params: {contact_id: vid},
+                                               body: query,
+                                               logger: logger)
       @properties.merge!(params)
       self
     end
@@ -165,8 +182,11 @@ module Hubspot
     # Archives the contact in hubspot
     # {https://developers.hubspot.com/docs/methods/contacts/delete_contact}
     # @return [TrueClass] true
-    def destroy!
-      response = Hubspot::Connection.delete_json(DESTROY_CONTACT_PATH, { contact_id: vid })
+    def destroy!(opts={})
+      logger = opts.delete(:logger) { false }
+      response = Hubspot::Connection.delete_json(DESTROY_CONTACT_PATH,
+                                                 contact_id: vid,
+                                                 logger: logger)
       @destroyed = true
     end
 

@@ -1,39 +1,101 @@
+require 'timecop'
+
 describe Hubspot::Connection do
+  let(:params) { {} }
+  let(:url) { 'http://localhost:3000' }
+  let(:http_reponse) { mock('http_response') }
+  let(:logger) { mock('logger') }
   before(:each) do
-    @url = 'http://localhost:3000'
-    @http_reponse = mock('http_response')
+    http_reponse.success?.any_times { true }
+    http_reponse.parsed_response.any_times { {} }
   end
 
   describe '.get_json' do
-	it 'delegates url format to Hubspot::Utils, call HTTParty get and returns response' do
-  	  @http_reponse.success? { true }
-      @http_reponse.parsed_response { {} }
+    before do
+      mock(Hubspot::Connection).generate_url(url, params) { url }
+      mock(Hubspot::Connection).get(url, format: :json) { http_reponse }
+    end
 
-  	  mock(Hubspot::Connection).generate_url(@url, {}) { @url }
-  	  mock(Hubspot::Connection).get(@url, format: :json) { @http_reponse }
-      Hubspot::Connection.get_json(@url, {})
-  	end
+    it 'delegates url format to Hubspot::Utils, call HTTParty get and returns response' do
+      Hubspot::Connection.get_json(url, params)
+    end
+
+    context 'if logger provided' do
+      let(:params) { {foo: :bar, logger: logger} }
+
+      it 'logs requests' do
+        Timecop.freeze do
+          mock(logger).log(:get, url, {foo: :bar}, true, 0){ true }
+          Hubspot::Connection.get_json(url, params)
+        end
+      end
+    end
   end
 
   describe '.post_json' do
-	it 'delegates url format to Hubspot::Utils, call HTTParty post and returns response' do
-  	  @http_reponse.success? { true }
-      @http_reponse.parsed_response { {} }
+    before do
+      mock(Hubspot::Connection).generate_url(url, params) { url }
+      mock(Hubspot::Connection).post(url, body: "{}", headers: {"Content-Type"=>"application/json"}, format: :json) { http_reponse }
+    end
 
-  	  mock(Hubspot::Connection).generate_url(@url, {}) { @url }
-  	  mock(Hubspot::Connection).post(@url, body: "{}", headers: {"Content-Type"=>"application/json"}, format: :json) { @http_reponse }
-      Hubspot::Connection.post_json(@url, params: {}, body: {})
-  	end
+    it 'delegates url format to Hubspot::Utils, call HTTParty post and returns response' do
+      Hubspot::Connection.post_json(url, params: params, body: {})
+    end
+
+    context 'if logger provided' do
+      let(:params) { {foo: :bar} }
+
+      it 'logs requests' do
+        Timecop.freeze do
+          mock(logger).log(:post, url, {:params=>{:foo=>:bar}, :body=>{}}, true, 0){ true }
+          Hubspot::Connection.post_json(url, params: params, body: {}, logger: logger)
+        end
+      end
+    end
+  end
+
+  describe '.put_json' do
+    before do
+      mock(Hubspot::Connection).generate_url(url, params) { url }
+      mock(Hubspot::Connection).put(url, body: "{}", headers: {"Content-Type"=>"application/json"}, format: :json) { http_reponse }
+    end
+
+    it 'delegates url format to Hubspot::Utils, call HTTParty put and returns response' do
+      Hubspot::Connection.put_json(url, params: params, body: {})
+    end
+
+    context 'if logger provided' do
+      let(:params) { {foo: :bar} }
+
+      it 'logs requests' do
+        Timecop.freeze do
+          mock(logger).log(:put, url, {:params=>{:foo=>:bar}, :body=>{}}, true, 0){ true }
+          Hubspot::Connection.put_json(url, params: params, body: {}, logger: logger)
+        end
+      end
+    end
   end
 
   describe '.delete_json' do
-	it 'delegates url format to Hubspot::Utils, call HTTParty delete and returns response' do
-  	  @http_reponse.success? { true }
+    before do
+      mock(Hubspot::Connection).generate_url(url, params) { url }
+      mock(Hubspot::Connection).delete(url, format: :json) { http_reponse }
+    end
 
-  	  mock(Hubspot::Connection).generate_url(@url, {}) { @url }
-  	  mock(Hubspot::Connection).delete(@url, format: :json) { @http_reponse }
-      Hubspot::Connection.delete_json(@url, {})
-  	end
+    it 'delegates url format to Hubspot::Utils, call HTTParty delete and returns response' do
+      Hubspot::Connection.delete_json(url, params)
+    end
+
+    context 'if logger provided' do
+      let(:params) { {foo: :bar, logger: logger} }
+
+      it 'logs requests' do
+        Timecop.freeze do
+          mock(logger).log(:delete, url, {foo: :bar}, true, 0){ true }
+          Hubspot::Connection.delete_json(url, params)
+        end
+      end
+    end
   end
 
   context 'private methods' do

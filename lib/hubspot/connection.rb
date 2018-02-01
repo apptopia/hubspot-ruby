@@ -4,32 +4,44 @@ module Hubspot
     TRACK_URL = 'http://track.hubspot.com'
     class << self
       def get_json(path, opts)
+        logger = opts.delete(:logger) { false }
         url = generate_url(path, opts)
+        start_time = current_timestamp
         response = get(url, format: :json)
+        logger.log(:get, url, opts, response.success?, (current_timestamp - start_time)) if logger
         raise(Hubspot::RequestError.new(response)) unless response.success?
         response.parsed_response
       end
 
       def post_json(path, opts)
+        logger = opts.delete(:logger) { false }
         no_parse = opts[:params].delete(:no_parse) { false }
 
         url = generate_url(path, opts[:params])
+        start_time = current_timestamp
         response = post(url, body: opts[:body].to_json, headers: { 'Content-Type' => 'application/json' }, format: :json)
+        logger.log(:post, url, opts, response.success?, (current_timestamp - start_time)) if logger
         raise(Hubspot::RequestError.new(response)) unless response.success?
 
         no_parse ? response : response.parsed_response
       end
 
       def put_json(path, opts)
+        logger = opts.delete(:logger) { false }
         url = generate_url(path, opts[:params])
+        start_time = current_timestamp
         response = put(url, body: opts[:body].to_json, headers: { 'Content-Type' => 'application/json' }, format: :json)
+        logger.log(:put, url, opts, response.success?, (current_timestamp - start_time)) if logger
         raise(Hubspot::RequestError.new(response)) unless response.success?
         response.parsed_response
       end
 
       def delete_json(path, opts)
+        logger = opts.delete(:logger) { false }
         url = generate_url(path, opts)
+        start_time = current_timestamp
         response = delete(url, format: :json)
+        logger.log(:delete, url, opts, response.success?, (current_timestamp - start_time)) if logger
         raise(Hubspot::RequestError.new(response)) unless response.success?
         response
       end
@@ -88,6 +100,11 @@ module Hubspot
         else
           "#{key}=#{converted_value(value)}"
         end
+      end
+
+      # current unix timestamp in milliseconds
+      def current_timestamp
+        DateTime.now.strftime('%Q').to_i
       end
     end
   end

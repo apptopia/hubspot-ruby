@@ -21,5 +21,4 @@ group :development do
   gem "timecop"
   gem "guard-rspec", require: false
   gem 'fuubar'
-  gem 'awesome_print'
 end
