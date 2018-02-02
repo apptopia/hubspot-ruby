@@ -9,6 +9,8 @@ describe Hubspot do
     end
   end
   let(:created_range_params) { { created__gt: false, created__range: (Time.now..Time.now + 2.years)  } }
+  let(:logger) { mock('logger') }
+  let(:blog_id) { 351076997 }
 
   before do
     Hubspot.configure(hapikey: "demo")
@@ -28,26 +30,40 @@ describe Hubspot do
       it "should have a list of blogs" do
         blog_list.count.should be(1)
       end
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, 'https://api.hubapi.com/content/api/v2/blogs?hapikey=demo', anything, anything, anything){ true }
+          Hubspot::Blog.list(logger: logger)
+        end
+      end
     end
 
     describe ".find_by_id" do
       cassette "blog_list"
 
       it "should have a list of blogs" do
-        blog = Hubspot::Blog.find_by_id(351076997)
-        blog["id"].should eq(351076997)
+        blog = Hubspot::Blog.find_by_id(blog_id)
+        blog["id"].should eq(blog_id)
+      end
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, "https://api.hubapi.com/content/api/v2/blogs/#{blog_id}?hapikey=demo", anything, anything, anything){ true }
+          Hubspot::Blog.find_by_id(blog_id, logger: logger)
+        end
       end
     end
 
     describe "#initialize" do
       subject{ Hubspot::Blog.new(example_blog_hash) }
       its(["name"]) { should == "API Demonstration Blog" }
-      its(["id"])   { should == 351076997 }
+      its(["id"])   { should == blog_id }
     end
 
     describe "#posts" do
       cassette "one_month_blog_posts_filter_state"
-      let(:blog) { Hubspot::Blog.new(example_blog_hash) }
+      let!(:blog) { Hubspot::Blog.new(example_blog_hash) }
 
       describe "can be filtered by state" do
 
@@ -80,12 +96,20 @@ describe Hubspot do
       it "can set a page size" do
         blog.posts({limit: 10}.merge(created_range_params)).length.should be(10)
       end
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, anything, anything, anything, anything){ true }
+          blog.posts(logger: logger)
+        end
+      end
     end
   end
 
   describe Hubspot::BlogPost do
     cassette "blog_posts"
     let(:post_id) { 5425703961 }
+    let(:post) { Hubspot::BlogPost.find_by_blog_post_id(post_id) }
 
     let(:example_blog_post) do
       VCR.use_cassette("one_month_blog_posts_filter_state", record: :none) do
@@ -98,17 +122,29 @@ describe Hubspot do
       expect(example_blog_post.created_at).to eq(Time.at(example_blog_post['created'] / 1000))
     end
 
-    it "can find by blog_post_id" do
-      blog = Hubspot::BlogPost.find_by_blog_post_id(post_id)
-      expect(blog['id']).to eq(post_id)
+    context '#find_by_blog_post_id' do
+      it "finds post" do
+        expect(post['id']).to eq(post_id)
+      end
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, anything, anything, anything, anything){ true }
+          Hubspot::BlogPost.find_by_blog_post_id(post_id, logger: logger)
+        end
+      end
     end
 
     context 'containing a topic' do
-      # post_id contains a topic
-      let(:blog_with_topic) { Hubspot::BlogPost.find_by_blog_post_id(post_id) }
-
       it "should return topic objects" do
-        expect(blog_with_topic.topics.first.is_a?(Hubspot::Topic)).to be(true)
+        expect(post.topics.first.is_a?(Hubspot::Topic)).to be(true)
+      end
+
+      context 'with logger' do
+        it 'logs requests' do
+          mock(logger).log(:get, anything, anything, anything, anything){ true }
+          post.topics(logger: logger)
+        end
       end
     end
   end

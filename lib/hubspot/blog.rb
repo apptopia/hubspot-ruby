@@ -12,16 +12,16 @@ module Hubspot
       # {https://developers.hubspot.com/docs/methods/blogv2/get_blogs}
       # No param filtering is currently implemented
       # @return [Hubspot::Blog] the first 20 blogs or empty_array
-      def list
-        response = Hubspot::Connection.get_json(BLOG_LIST_PATH, {})
+      def list(opts={})
+        response = Hubspot::Connection.get_json(BLOG_LIST_PATH, opts)
         response['objects'].map { |b| new(b) }
       end
 
       # Finds a specific blog by its ID
       # {https://developers.hubspot.com/docs/methods/blogv2/get_blogs_blog_id}
       # @return Hubspot::Blog
-      def find_by_id(id)
-        response = Hubspot::Connection.get_json(GET_BLOG_BY_ID_PATH, { blog_id: id })
+      def find_by_id(id, opts={})
+        response = Hubspot::Connection.get_json(GET_BLOG_BY_ID_PATH, opts.merge(blog_id: id))
         new(response)
       end
     end
@@ -35,7 +35,6 @@ module Hubspot
     def [](property)
       @properties[property]
     end
-
 
     # Returns the posts for this blog instance.
     #   defaults to returning the last 2 months worth of published blog posts
@@ -67,8 +66,8 @@ module Hubspot
     # Returns a specific blog post by ID
     # {https://developers.hubspot.com/docs/methods/blogv2/get_blog_posts_blog_post_id}
     # @return Hubspot::BlogPost
-    def self.find_by_blog_post_id(id)
-      response = Hubspot::Connection.get_json(GET_BLOG_POST_BY_ID_PATH, { blog_post_id: id })
+    def self.find_by_blog_post_id(id, opts={})
+      response = Hubspot::Connection.get_json(GET_BLOG_POST_BY_ID_PATH, opts.merge(blog_post_id: id))
       new(response)
     end
 
@@ -84,17 +83,16 @@ module Hubspot
       Time.at(@properties['created'] / 1000)
     end
 
-    def topics
+    def topics(opts={})
       @topics ||= begin
         if @properties['topic_ids'].empty?
           []
         else
           @properties['topic_ids'].map do |topic_id|
-            Hubspot::Topic.find_by_topic_id(topic_id)
+            Hubspot::Topic.find_by_topic_id(topic_id, opts)
           end
         end
       end
     end
   end
-
 end
