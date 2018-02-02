@@ -12,7 +12,7 @@ describe Hubspot do
 
   before do
     Hubspot.configure(hapikey: "demo")
-    Timecop.freeze(Time.local(2012, 'Oct', 10))
+    Timecop.freeze(Time.utc(2014, 'Oct', 10))
   end
 
   after do
@@ -52,7 +52,7 @@ describe Hubspot do
       describe "can be filtered by state" do
 
         it "should filter the posts to published by default" do
-          blog.posts.length.should be(14)
+          blog.posts.map{ |p| p['state'] }.uniq.should eq(['PUBLISHED'])
         end
 
         it "should validate the state is a valid one" do
@@ -71,7 +71,7 @@ describe Hubspot do
         end
 
         it "by created ascending" do
-          pending
+          pending 'Not yet implemented on API side'
           created_timestamps = blog.posts({order_by: '+created'}.merge(created_range_params)).map { |post| post['created'] }
           expect(created_timestamps.sort).to eq(created_timestamps)
         end
@@ -85,6 +85,7 @@ describe Hubspot do
 
   describe Hubspot::BlogPost do
     cassette "blog_posts"
+    let(:post_id) { 5425703961 }
 
     let(:example_blog_post) do
       VCR.use_cassette("one_month_blog_posts_filter_state", record: :none) do
@@ -98,13 +99,13 @@ describe Hubspot do
     end
 
     it "can find by blog_post_id" do
-      blog = Hubspot::BlogPost.find_by_blog_post_id(422192866)
-      expect(blog['id']).to eq(422192866)
+      blog = Hubspot::BlogPost.find_by_blog_post_id(post_id)
+      expect(blog['id']).to eq(post_id)
     end
 
     context 'containing a topic' do
-      # 422192866 contains a topic
-      let(:blog_with_topic) { Hubspot::BlogPost.find_by_blog_post_id(422192866) }
+      # post_id contains a topic
+      let(:blog_with_topic) { Hubspot::BlogPost.find_by_blog_post_id(post_id) }
 
       it "should return topic objects" do
         expect(blog_with_topic.topics.first.is_a?(Hubspot::Topic)).to be(true)

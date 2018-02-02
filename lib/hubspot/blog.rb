@@ -41,7 +41,7 @@ module Hubspot
     #   defaults to returning the last 2 months worth of published blog posts
     #   in date descending order (i.e. most recent first)
     # {https://developers.hubspot.com/docs/methods/blogv2/get_blog_posts}
-    # @return [Hubspot::BlogPost] 
+    # @return [Hubspot::BlogPost]
     def posts(params = {})
       default_params = {
         content_group_id: self["id"],
@@ -53,7 +53,7 @@ module Hubspot
       params = default_params.merge(params)
 
       raise Hubspot::InvalidParams.new('State parameter was invalid') unless [false, 'PUBLISHED', 'DRAFT'].include?(params[:state])
-      params.each { |k, v| params.delete(k) if v == false }
+      params.each { |k, v| params.delete(k) unless v }
 
       response = Hubspot::Connection.get_json(BLOG_POSTS_PATH, params)
       response['objects'].map { |p| BlogPost.new(p) }
@@ -62,6 +62,7 @@ module Hubspot
 
   class BlogPost
     GET_BLOG_POST_BY_ID_PATH = "/content/api/v2/blog-posts/:blog_post_id"
+    attr_accessor :properties
 
     # Returns a specific blog post by ID
     # {https://developers.hubspot.com/docs/methods/blogv2/get_blog_posts_blog_post_id}
