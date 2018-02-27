@@ -4,6 +4,7 @@ describe Hubspot::Company do
       HTTParty.get("https://api.hubapi.com/companies/v2/companies/21827084?hapikey=demo").parsed_response
     end
   end
+  let(:logger) { mock('logger') }
 
   before{ Hubspot.configure(hapikey: "demo") }
 
@@ -32,31 +33,57 @@ describe Hubspot::Company do
         its(["domain"]){ should match /new\-company\-domain/ }
       end
     end
+
+    context 'with logger' do
+      let(:name){ "foo" }
+      let(:params){ {logger: logger} }
+      it 'logs request' do
+        mock(logger).log(:post, anything, anything, anything, anything){ true }
+        subject
+      end
+    end
   end
 
    describe ".find_by_id" do
+    cassette "company_find_by_id"
+
     context 'given an uniq id' do
-      cassette "company_find_by_id"
       subject{ Hubspot::Company.find_by_id(vid) }
 
       context "when the company is found" do
         let(:vid){ 21827084 }
         it{ should be_an_instance_of Hubspot::Company }
         its(:name){ should == "HubSpot" }
+
+        context 'with logger' do
+          it 'logs request' do
+            mock(logger).log(:get, anything, anything, anything, anything){ true }
+            described_class.find_by_id(vid, logger: logger)
+          end
+        end
       end
 
       context "when the contact cannot be found" do
+        let(:vid){ 9999999 }
+
         it 'raises an error' do
-          expect { Hubspot::Company.find_by_id(9999999) }.to raise_error(Hubspot::RequestError)
+          expect { subject }.to raise_error(Hubspot::RequestError)
+        end
+
+        context 'with logger' do
+          it 'logs request' do
+            mock(logger).log(:get, anything, anything, anything, anything){ true }
+            expect { described_class.find_by_id(vid, logger: logger) }.to raise_error
+          end
         end
       end
     end
   end
 
-
   describe ".find_by_domain" do
+    cassette "company_find_by_domain"
+
     context 'given a domain' do
-      cassette "company_find_by_domain"
       subject{ Hubspot::Company.find_by_domain("hubspot.com") }
 
       context "when a company is found" do
@@ -68,6 +95,13 @@ describe Hubspot::Company do
         subject{Hubspot::Company.find_by_domain("asdf1234baddomain.com")}
         it{ should be_an_instance_of Array }
         it{ should be_empty }
+      end
+    end
+
+    context 'with logger' do
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        described_class.find_by_domain("hubspot.com", logger: logger)
       end
     end
   end
@@ -85,7 +119,7 @@ describe Hubspot::Company do
       end
 
       it 'returns companies only' do
-        expect(companies.first).to be_a Hubspot::Company
+        expect(companies.first).to be_a described_class
       end
     end
 
@@ -94,6 +128,13 @@ describe Hubspot::Company do
 
       it 'returns raw response' do
         expect(companies['has-more']).to eq(true)
+      end
+    end
+
+    context 'with logger' do
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        described_class.all(logger: logger)
       end
     end
   end
@@ -125,7 +166,7 @@ describe Hubspot::Company do
       end
     end
 
-    context 'recent companies' do
+    context 'recently updated companies' do
       cassette 'find_all_recent_companies'
 
       it 'must get the companies list' do
@@ -149,6 +190,15 @@ describe Hubspot::Company do
         expect(response['hasMore']).to eq(true)
       end
     end
+
+    context 'with logger' do
+      cassette 'find_all_companies'
+
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        described_class.recent(logger: logger)
+      end
+    end
   end
 
   describe "#update!" do
@@ -165,6 +215,15 @@ describe Hubspot::Company do
       let(:company){ Hubspot::Company.new({"vid" => "invalid", "properties" => {}})}
       it "raises an error" do
         expect{ subject }.to raise_error Hubspot::RequestError
+      end
+    end
+
+    context 'with logger' do
+      let(:params){ {name: "Acme Cogs", domain: "abccogs.com", logger: logger} }
+
+      it 'logs request' do
+        mock(logger).log(:put, anything, anything, anything, anything){ true }
+        subject
       end
     end
   end
@@ -185,6 +244,13 @@ describe Hubspot::Company do
         company.destroyed?.should be_false
       end
     end
+
+    context 'with logger' do
+      it 'logs request' do
+        mock(logger).log(:delete, anything, anything, anything, anything){ true }
+        company.destroy!(logger: logger)
+      end
+    end
   end
 
   describe "#add_contact" do
@@ -200,6 +266,13 @@ describe Hubspot::Company do
     context "with vid" do
       before { company.add_contact contact.vid }
       its(['num_associated_contacts']) { should eql '1' }
+    end
+
+    context 'with logger' do
+      it 'logs request' do
+        mock(logger).log(:put, anything, anything, anything, anything){ true }
+        company.add_contact(contact.vid, logger: logger)
+      end
     end
   end
 

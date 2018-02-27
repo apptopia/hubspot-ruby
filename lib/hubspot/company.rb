@@ -55,9 +55,9 @@ module Hubspot
       # {http://developers.hubspot.com/docs/methods/companies/get_companies_by_domain}
       # @param domain [String] company domain to search by
       # @return [Array] Array of Hubspot::Company records
-      def find_by_domain(domain)
+      def find_by_domain(domain, opts={})
         path = GET_COMPANY_BY_DOMAIN_PATH
-        params = { domain: domain }
+        params = opts.merge(domain: domain)
         raise Hubspot::InvalidParams, 'expecting Integer parameter' unless domain.try(:is_a?, String)
 
         companies = []
@@ -75,9 +75,9 @@ module Hubspot
       # @param id [Integer] company id to search by
       # @return [Hubspot::Company] Company record
       def find_by_id(id, opts={})
-        raw = opts.delete(:raw) { false } 
+        raw = opts.delete(:raw) { false }
         path = GET_COMPANY_BY_ID_PATH
-        params = { company_id: id }
+        params = opts.merge(company_id: id)
         raise Hubspot::InvalidParams, 'expecting Integer parameter' unless id.try(:is_a?, Integer)
         response = Hubspot::Connection.get_json(path, params)
         raw ? response : new(response)
@@ -88,9 +88,10 @@ module Hubspot
       # @param name [String]
       # @return [Hubspot::Company] Company record
       def create!(name, params={})
+        logger = params.delete(:logger) { false }
         params_with_name = params.stringify_keys.merge("name" => name)
         post_data = {properties: Hubspot::Utils.hash_to_properties(params_with_name, key_name: "name")}
-        response = Hubspot::Connection.post_json(CREATE_COMPANY_PATH, params: {}, body: post_data )
+        response = Hubspot::Connection.post_json(CREATE_COMPANY_PATH, params: {}, body: post_data, logger: logger)
         new(response)
       end
     end
@@ -113,8 +114,9 @@ module Hubspot
     # @param params [Hash] hash of properties to update
     # @return [Hubspot::Company] self
     def update!(params)
+      logger = params.delete(:logger) { false }
       query = {"properties" => Hubspot::Utils.hash_to_properties(params.stringify_keys!, key_name: "name")}
-      response = Hubspot::Connection.put_json(UPDATE_COMPANY_PATH, params: { company_id: vid }, body: query)
+      response = Hubspot::Connection.put_json(UPDATE_COMPANY_PATH, params: { company_id: vid }, body: query, logger: logger)
       @properties.merge!(params)
       self
     end
@@ -123,7 +125,8 @@ module Hubspot
     # {http://developers.hubspot.com/docs/methods/companies/add_contact_to_company}
     # @param id [Integer] contact id to add
     # @return [Hubspot::Company] self
-    def add_contact(contact_or_vid)
+    def add_contact(contact_or_vid, opts={})
+      logger = opts.delete(:logger) { false }
       contact_vid = if contact_or_vid.is_a?(Hubspot::Contact)
                       contact_or_vid.vid
                     else
@@ -134,15 +137,17 @@ module Hubspot
                                      company_id: vid,
                                      vid: contact_vid,
                                    },
-                                   body: nil)
+                                   body: nil,
+                                   logger: logger)
       self
     end
 
     # Archives the company in hubspot
     # {http://developers.hubspot.com/docs/methods/companies/delete_company}
     # @return [TrueClass] true
-    def destroy!
-      response = Hubspot::Connection.delete_json(DESTROY_COMPANY_PATH, { company_id: vid })
+    def destroy!(opts={})
+      logger = opts.delete(:logger) { false }
+      response = Hubspot::Connection.delete_json(DESTROY_COMPANY_PATH, company_id: vid, logger: logger)
       @destroyed = true
     end
 
