@@ -4,28 +4,30 @@ module Hubspot
     PROPERTY_PATH_BY_NAME = '/companies/v2/properties/named/'
     class << self
       # {http://developers.hubspot.com/docs/methods/companies/get_company_properties}
-      def all
-        response = Hubspot::Connection.get_json(PROPERTY_PATH, {})
+      def all(params = {})
+        response = Hubspot::Connection.get_json(PROPERTY_PATH, params)
         response.map{|property| new(property)}
       end
 
       # {http://developers.hubspot.com/docs/methods/companies/get_company_property}
-      def find_by_name(name)
-        response = Hubspot::Connection.get_json("#{PROPERTY_PATH_BY_NAME}#{name}", {})
+      def find_by_name(name, params = {})
+        response = Hubspot::Connection.get_json("#{PROPERTY_PATH_BY_NAME}#{name}", params)
         new(response)
       end
 
       # {http://developers.hubspot.com/docs/methods/companies/create_company_property}
       def create!(group_name, params = {})
+        logger = params.delete(:logger) { false }
         params = params.merge(format_group_name(group_name))
-        response = Hubspot::Connection.post_json(PROPERTY_PATH, params: {}, body: params.stringify_keys)
+        response = Hubspot::Connection.post_json(PROPERTY_PATH, params: {}, body: params.stringify_keys, logger: logger)
         new(response)
       end
 
       # {http://developers.hubspot.com/docs/methods/companies/update_company_property}
       def update!(name, params = {})
+        logger = params.delete(:logger) { false }
         params = params.merge(format_group_name(params[:groupName]))
-        response = Hubspot::Connection.put_json("#{PROPERTY_PATH_BY_NAME}#{name}", params: {}, body: params.stringify_keys)
+        response = Hubspot::Connection.put_json("#{PROPERTY_PATH_BY_NAME}#{name}", params: {}, body: params.stringify_keys, logger: logger)
         new(response)
       end
 

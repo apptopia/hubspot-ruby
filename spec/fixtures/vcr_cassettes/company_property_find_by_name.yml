@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.hubapi.com/companies/v2/properties/named/about_us?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 27 Feb 2018 10:36:31 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dbe3d87ad33fc337067915a70dc69cb4d1519727791; expires=Wed, 27-Feb-19
+        10:36:31 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B09B576D38BA15E270025EEB895AE4D06C01E5E91000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3f3a80e67ffc8448-KBP
+    body:
+      encoding: UTF-8
+      string: '{"name":"about_us","label":"About Us","description":"Short about-company","groupName":"companyinformation","type":"string","fieldType":"text","options":[],"hidden":false,"calculated":false,"externalOptions":false,"favorited":false,"favoritedOrder":-1,"displayMode":"current_value","showCurrencySymbol":null,"createdUserId":null,"textDisplayHint":null,"numberDisplayHint":null,"optionsAreMutable":null,"referencedObjectType":null,"isCustomizedDefault":false,"hubspotDefined":true,"formField":false,"displayOrder":-1,"readOnlyValue":false,"readOnlyDefinition":true,"mutableDefinitionNotDeletable":true,"deleted":null,"createdAt":null,"updatedAt":null,"updatedUserId":null}'
+    http_version: 
+  recorded_at: Tue, 27 Feb 2018 10:36:31 GMT
+recorded_with: VCR 2.4.0

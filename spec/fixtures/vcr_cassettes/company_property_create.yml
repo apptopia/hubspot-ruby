@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.hubapi.com/companies/v2/properties/?hapikey=demo
+    body:
+      encoding: UTF-8
+      string: '{"name":"foo_test_property","label":"Foo Test Property","type":"string","groupName":"companyinformation"}'
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 27 Feb 2018 10:59:17 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=de8eceefcac137a1de71de8de11aa9ca31519729156; expires=Wed, 27-Feb-19
+        10:59:16 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2BA99F725EA23D45C3279409A7CDBDAD654F3F4807000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3f3aa23bfcea843c-KBP
+    body:
+      encoding: UTF-8
+      string: '{"name":"foo_test_property","label":"Foo Test Property","description":"","groupName":"companyinformation","type":"string","fieldType":"","hidden":false,"options":[],"formField":false,"displayOrder":76,"readOnlyValue":false,"readOnlyDefinition":false,"mutableDefinitionNotDeletable":false,"favorited":false,"favoritedOrder":-1,"calculated":false,"externalOptions":false,"hubspotDefined":null,"deleted":null,"updatedUserId":null,"displayMode":"current_value","showCurrencySymbol":null,"createdUserId":null,"textDisplayHint":null,"numberDisplayHint":null,"optionsAreMutable":null,"referencedObjectType":null,"isCustomizedDefault":false,"createdAt":null,"updatedAt":null}'
+    http_version: 
+  recorded_at: Tue, 27 Feb 2018 10:59:17 GMT
+recorded_with: VCR 2.4.0
