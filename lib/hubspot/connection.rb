@@ -113,8 +113,12 @@ module Hubspot
     follow_redirects true
 
     def self.submit(path, opts)
+      logger = opts.delete(:logger) { false }
       url = generate_url(path, opts[:params], { base_url: 'https://forms.hubspot.com', hapikey: false })
-      post(url, body: opts[:body], headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+      start_time = current_timestamp
+      response = post(url, body: opts[:body], headers: { 'Content-Type' => 'application/x-www-form-urlencoded' })
+      logger.log(:post, url, opts, response.success?, (current_timestamp - start_time)) if logger
+      response
     end
   end
 end

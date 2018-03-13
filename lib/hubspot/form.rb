@@ -14,18 +14,19 @@ module Hubspot
     class << self
       # {https://developers.hubspot.com/docs/methods/forms/create_form}
       def create!(opts={})
-        response = Hubspot::Connection.post_json(FORMS_PATH, params: {}, body: opts)
+        logger = opts.delete(:logger) { false }
+        response = Hubspot::Connection.post_json(FORMS_PATH, params: {}, body: opts, logger: logger)
         new(response)
       end
 
-      def all
-        response = Hubspot::Connection.get_json(FORMS_PATH, {})
+      def all(opts={})
+        response = Hubspot::Connection.get_json(FORMS_PATH, opts)
         response.map { |f| new(f) }
       end
 
       # {https://developers.hubspot.com/docs/methods/forms/get_form}
-      def find(guid)
-        response = Hubspot::Connection.get_json(FORM_PATH, { form_guid: guid })
+      def find(guid, opts={})
+        response = Hubspot::Connection.get_json(FORM_PATH, opts.merge(form_guid: guid))
         new(response)
       end
 
@@ -56,14 +57,14 @@ module Hubspot
       if field_name
         field_name = field_name.to_s
         if bypass_cache || @fields.nil? || @fields.empty?
-          response = Hubspot::Connection.get_json(FIELD_PATH, { form_guid: @guid, field_name: field_name })
+          response = Hubspot::Connection.get_json(FIELD_PATH, opts.merge({form_guid: @guid, field_name: field_name}))
           response
         else
           @fields.detect { |f| f['name'] == field_name }
         end
       else
         if bypass_cache || @fields.nil? || @fields.empty?
-          response = Hubspot::Connection.get_json(FIELDS_PATH, { form_guid: @guid })
+          response = Hubspot::Connection.get_json(FIELDS_PATH, opts.merge({form_guid: @guid}))
           @fields = response
         end
         @fields
@@ -72,20 +73,22 @@ module Hubspot
 
     # {https://developers.hubspot.com/docs/methods/forms/submit_form}
     def submit(opts={})
-      response = Hubspot::FormsConnection.submit(SUBMIT_DATA_PATH, params: { form_guid: @guid }, body: opts)
+      logger = opts.delete(:logger) { false }
+      response = Hubspot::FormsConnection.submit(SUBMIT_DATA_PATH, params: { form_guid: @guid }, body: opts, logger: logger)
       [204, 302, 200].include?(response.code)
     end
 
     # {https://developers.hubspot.com/docs/methods/forms/update_form}
     def update!(opts={})
-      response = Hubspot::Connection.post_json(FORM_PATH, params: { form_guid: @guid }, body: opts)
+      logger = opts.delete(:logger) { false }
+      response = Hubspot::Connection.post_json(FORM_PATH, params: { form_guid: @guid }, body: opts, logger: logger)
       self.send(:assign_properties, response)
       self
     end
 
     # {https://developers.hubspot.com/docs/methods/forms/delete_form}
-    def destroy!
-      response = Hubspot::Connection.delete_json(FORM_PATH, { form_guid: @guid })
+    def destroy!(opts={})
+      response = Hubspot::Connection.delete_json(FORM_PATH, opts.merge({form_guid: @guid}))
       @destroyed = (response.code == 204)
     end
 
@@ -97,7 +100,7 @@ module Hubspot
 
     def assign_properties(hash)
       @guid = hash['guid']
-      @fields = hash['formFieldGroups'].inject([]){ |result, fg| result || fg['fields'] }
+      @fields = hash['fields']
       @properties = hash
     end
   end

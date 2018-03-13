@@ -5,31 +5,39 @@ describe Hubspot::Form do
     end
   end
   let(:created_guid) { '7f82048b-1364-4158-8a59-166e70df42c6' }
+  let(:logger) { mock('logger') }
 
-  describe '#initialize' do
-    subject { Hubspot::Form.new(example_form_hash) }
+  before { Hubspot.configure(hapikey: "demo", portal_id: '62515') }
 
-    it { should be_an_instance_of Hubspot::Form }
+  describe '.initialize' do
+    subject { described_class.new(example_form_hash) }
+
+    it { should be_an_instance_of described_class }
     its(:guid) { should be_a(String) }
     its(:properties) { should be_a(Hash) }
   end
-
-  before { Hubspot.configure(hapikey: "demo", portal_id: '62515') }
 
   describe '.all' do
     cassette 'find_all_forms'
 
     it 'returns all forms' do
-      forms = Hubspot::Form.all
+      forms = described_class.all
       expect(forms.count).to eq(10)
 
       form = forms.first
-      expect(form).to be_a(Hubspot::Form)
+      expect(form).to be_a(described_class)
+    end
+
+    context 'with logger' do
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        described_class.all(logger: logger)
+      end
     end
   end
 
   describe '.create' do
-    subject{ Hubspot::Form.create!(params) }
+    subject{ described_class.create!(params) }
 
     context 'with all required parameters' do
       cassette 'create_form'
@@ -48,57 +56,79 @@ describe Hubspot::Form do
           embeddedCode: ""
         }
       end
-      it { should be_an_instance_of Hubspot::Form }
+      it { should be_an_instance_of described_class }
       its(:guid) { should eq(created_guid) }
+
+      context 'with logger' do
+        it 'logs request' do
+          params.merge!(logger: logger)
+          mock(logger).log(:post, anything, anything, anything, anything){ true }
+          subject
+        end
+      end
     end
 
     context 'without all required parameters' do
       cassette 'fail_to_create_form'
 
       it 'raises an error' do
-        expect { Hubspot::Form.create!({}) }.to raise_error(Hubspot::RequestError)
+        expect { described_class.create!({}) }.to raise_error(Hubspot::RequestError)
       end
     end
   end
 
   describe '.find' do
     cassette "form_find"
-    subject { Hubspot::Form.find(guid) }
+    subject { described_class.find(guid) }
     let(:guid) { 'c4189ed5-c056-400d-8e11-63c103c4b422' }
 
     context 'when the form is found' do
-      it { should be_an_instance_of Hubspot::Form }
+      it { should be_an_instance_of described_class }
       its(:fields) { should_not be_empty }
     end
 
     context 'when the form is not found' do
       it 'raises an error' do
-        expect { Hubspot::Form.find(-1) }.to raise_error(Hubspot::RequestError)
+        expect { described_class.find(-1) }.to raise_error(Hubspot::RequestError)
+      end
+    end
+
+    context 'with logger' do
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        described_class.find(guid, logger: logger)
       end
     end
   end
 
-  describe '#fields' do
+  describe '.fields' do
     context 'returning all the fields' do
       cassette 'fields_among_form'
 
-      let(:form) { Hubspot::Form.new(example_form_hash) }
+      let(:form) { described_class.new(example_form_hash) }
 
       it 'returns by default the fields property if present' do
         fields = form.fields
-        fields.should_not be_empty
+        fields.size.should eq(6)
       end
 
-      it 'updates the fields property and returns it' do 
+      it 'updates the fields property and returns it' do
         fields = form.fields(bypass_cache: true)
-        fields.should_not be_empty
+        fields.size.should eq(5)
+      end
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, anything, anything, anything, anything){ true }
+          fields = form.fields(bypass_cache: true, logger: logger)
+        end
       end
     end
 
     context 'returning an uniq field' do
       cassette 'field_among_form'
 
-      let(:form) { Hubspot::Form.new(example_form_hash) }
+      let(:form) { described_class.new(example_form_hash) }
 
       it 'returns by default the field if present as a property' do
         field = form.fields(only: :email)
@@ -111,55 +141,87 @@ describe Hubspot::Form do
         expect(field).to be_a(Hash)
         expect(field['name']).to be == 'email'
       end
+
+      context 'with logger' do
+        it 'logs request' do
+          mock(logger).log(:get, anything, anything, anything, anything){ true }
+          fields = form.fields(only: :email, bypass_cache: true, logger: logger)
+        end
+      end
     end
   end
 
-  describe '#submit' do
+  describe '.submit' do
     cassette 'form_submit_data'
 
-    let(:form) { Hubspot::Form.find(created_guid) }
+    let(:form) { described_class.find(created_guid) }
+    let(:params) { {} }
 
-    it 'returns true if the form submission is successfull' do 
-      params = { }
+    it 'returns true if the form submission is successfull' do
       result = form.submit(params)
       result.should be true
     end
 
     it 'returns false in case of errors' do
       Hubspot.configure(hapikey: "demo", portal_id: '62514')
-      params = { }
       result = form.submit(params)
       result.should be false
     end
+
+    context 'with logger' do
+      let(:params) { {logger: logger} }
+
+      it 'logs request' do
+        mock(logger).log(:post, anything, anything, anything, anything){ true }
+        form.submit(params)
+      end
+    end
   end
 
-  describe '#update!' do
+  describe '.update!' do
     cassette "form_update"
 
     let(:redirect) { 'http://hubspot.com' }
     let(:new_name) { "updated form name #{created_guid}" }
-    let(:form) { Hubspot::Form.find(created_guid) }
+    let(:form) { described_class.find(created_guid) }
     let(:params) { { name: new_name, redirect: redirect } }
     subject { form.update!(params) }
 
-    it { should be_an_instance_of Hubspot::Form }
+    it { should be_an_instance_of described_class }
     it 'updates properties' do
       subject.properties['name'].should be == new_name
       subject.properties['redirect'].should be == redirect
     end
+
+    context 'with logger' do
+      let(:params) { {logger: logger} }
+
+      it 'logs request' do
+        params.merge!(logger: logger)
+        mock(logger).log(:post, anything, anything, anything, anything){ true }
+        subject
+      end
+    end
   end
 
-  describe '#destroy!' do
+  describe '.destroy!' do
     cassette "form_destroy"
 
     # NOTE: form previous created via the create! method
-    let(:form) { Hubspot::Form.find(created_guid) }
+    let(:form) { described_class.find(created_guid) }
     subject{ form.destroy! }
     it { should be_true }
 
     it "should be destroyed" do
       subject
       form.destroyed?.should be_true
+    end
+
+    context 'with logger' do
+      it 'logs request' do
+        mock(logger).log(:delete, anything, anything, anything, anything){ true }
+        form.destroy!(logger: logger)
+      end
     end
   end
 end
