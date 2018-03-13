@@ -2,10 +2,10 @@
 http_interactions:
 - request:
     method: post
-    uri: https://api.hubapi.com/contacts/v1/forms?hapikey=demo
+    uri: https://api.hubapi.com/forms/v2/forms?hapikey=demo
     body:
       encoding: UTF-8
-      string: '{"name":"Demo Form 1424708546","action":"","method":"POST","cssClass":"hs-form
+      string: '{"name":"Demo Form 1520505081","action":"","method":"POST","cssClass":"hs-form
         stacked","redirect":"","submitText":"Sign Up","followUpId":"","leadNurturingCampaignId":"","notifyRecipients":"","embeddedCode":""}'
     headers:
       Content-Type:
@@ -15,25 +15,36 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Access-Control-Allow-Credentials:
-      - 'false'
+      Date:
+      - Thu, 08 Mar 2018 10:31:21 GMT
       Content-Type:
       - application/json; charset=UTF-8
-      Date:
-      - Mon, 23 Feb 2015 16:22:26 GMT
-      Vary:
-      - Accept-Encoding
-      - Accept-Encoding
-      Content-Length:
-      - '649'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
+      Set-Cookie:
+      - __cfduid=dd9da7bceeb434ce1e8c3c12c5cecb7f81520505081; expires=Fri, 08-Mar-19
+        10:31:21 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Expose-Headers:
+      - x-last-modified-timestamp, X-HubSpot-NotFound, X-HS-User-Request, Link, X-Total-Count
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B648E410F5CF6AE563625932F774C2283553B0FD9000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3f84a1b86e418b22-KBP
     body:
       encoding: UTF-8
-      string: '{"guid":"8291bdd1-0681-4d99-b5f7-76ffffb4f98d","name":"Demo Form 1424708546","action":"","method":"POST","cssClass":"hs-form
-        stacked","redirect":"","fields":[],"submitText":"Sign Up","followUpId":"","notifyRecipients":"","leadNurturingCampaignId":"","formFieldGroups":[],"createdAt":1424708546415,"updatedAt":1424708546415,"performableHtml":"","migratedFrom":"","ignoreCurrentValues":false,"metaData":[],"deletable":true,"embeddedCode":"<script
-        charset=\"utf-8\" src=\"http://js.hubspot.com/forms/current.js\"></script>\n<script>\n  hbspt.forms.create({\n    portalId:
-        ''62515'',\n    formId: ''8291bdd1-0681-4d99-b5f7-76ffffb4f98d''\n  });\n</script>"}'
+      string: '{"portalId":62515,"guid":"7f82048b-1364-4158-8a59-166e70df42c6","name":"Demo
+        Form 1520505081","action":"","method":"POST","cssClass":"hs-form stacked","redirect":"","submitText":"Sign
+        Up","followUpId":"","notifyRecipients":"","leadNurturingCampaignId":"","formFieldGroups":[],"createdAt":1520505081738,"updatedAt":1520505081738,"performableHtml":"","migratedFrom":"","ignoreCurrentValues":false,"metaData":[],"deletable":true,"inlineMessage":"","tmsId":"","captchaEnabled":false,"campaignGuid":"","cloneable":true,"editable":true,"formType":"HUBSPOT","deletedAt":0,"themeName":""}'
     http_version: 
-  recorded_at: Mon, 23 Feb 2015 16:22:26 GMT
+  recorded_at: Thu, 08 Mar 2018 10:31:21 GMT
 recorded_with: VCR 2.4.0

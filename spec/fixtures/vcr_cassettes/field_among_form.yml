@@ -2,7 +2,50 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.hubapi.com/contacts/v1/fields/561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0/email?hapikey=demo
+    uri: https://api.hubapi.com/forms/v2/fields/561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0/email?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Tue, 13 Mar 2018 13:37:40 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '234'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d41e734c7564b5a10d4b1f9c427028dc31520948260; expires=Wed, 13-Mar-19
+        13:37:40 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Expose-Headers:
+      - x-last-modified-timestamp, X-HubSpot-NotFound, X-HS-User-Request, Link, X-Total-Count
+      X-Hubspot-Notfound:
+      - 'true'
+      X-Trace:
+      - 2B8C31D0C266E7D6B5AC6389DB1E6F55530776E6D2000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3faee584299f8406-KBP
+    body:
+      encoding: UTF-8
+      string: '{"status":"error","message":"The Form with the guid ''561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0''
+        has no FormField with the name ''email''.","correlationId":"1e70312c-26fb-44f3-a65b-38a359087a00","requestId":"ca8de539249f74cca47c0b904e7fe528"}'
+    http_version: 
+  recorded_at: Tue, 13 Mar 2018 13:37:40 GMT
+- request:
+    method: get
+    uri: https://api.hubapi.com/forms/v2/fields/c4189ed5-c056-400d-8e11-63c103c4b422/email?hapikey=demo
     body:
       encoding: US-ASCII
       string: ''
@@ -12,23 +55,35 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Access-Control-Allow-Credentials:
-      - 'false'
+      Date:
+      - Tue, 13 Mar 2018 13:41:50 GMT
       Content-Type:
       - application/json; charset=UTF-8
-      Date:
-      - Mon, 23 Feb 2015 15:51:46 GMT
-      Vary:
-      - Accept-Encoding
-      - Accept-Encoding
-      Content-Length:
-      - '406'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
+      Set-Cookie:
+      - __cfduid=d55be9eea9adb592e637f73f8e35130441520948510; expires=Wed, 13-Mar-19
+        13:41:50 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Expose-Headers:
+      - x-last-modified-timestamp, X-HubSpot-NotFound, X-HS-User-Request, Link, X-Total-Count
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B36E690CEFFE29D75AE784CF24F00800B4B7C4589000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3faeeb9c697c8b94-KBP
     body:
       encoding: UTF-8
       string: '{"name":"email","label":"Email","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":2,"required":true,"selectedOptions":[],"options":[],"validation":{"name":"email","message":"Please
-        enter a valid email address","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""}'
+        enter a valid email address","data":"","useDefaultBlockList":false,"blockedEmailAddresses":[]},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":"","dependentFieldFilters":[],"labelHidden":false}'
     http_version: 
-  recorded_at: Mon, 23 Feb 2015 15:51:46 GMT
+  recorded_at: Tue, 13 Mar 2018 13:41:50 GMT
 recorded_with: VCR 2.4.0

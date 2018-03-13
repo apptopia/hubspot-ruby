@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.hubapi.com/contacts/v1/fields/561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0?hapikey=demo
+    uri: https://api.hubapi.com/forms/v2/fields/561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0?hapikey=demo
     body:
       encoding: US-ASCII
       string: ''
@@ -12,24 +12,80 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Access-Control-Allow-Credentials:
-      - 'false'
+      Date:
+      - Tue, 13 Mar 2018 13:37:40 GMT
       Content-Type:
       - application/json; charset=UTF-8
-      Date:
-      - Mon, 23 Feb 2015 15:16:12 GMT
-      Vary:
-      - Accept-Encoding
-      - Accept-Encoding
-      Content-Length:
-      - '1162'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
+      Set-Cookie:
+      - __cfduid=d41e734c7564b5a10d4b1f9c427028dc31520948260; expires=Wed, 13-Mar-19
+        13:37:40 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Expose-Headers:
+      - x-last-modified-timestamp, X-HubSpot-NotFound, X-HS-User-Request, Link, X-Total-Count
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2BCE5CC0DBBA298D7D39380696288F4F8A6C9F05FB000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3faee582c93c8406-KBP
     body:
       encoding: UTF-8
-      string: '[{"name":"firstname","label":"First Name","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":0,"required":false,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""},{"name":"lastname","label":"Last
-        Name","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":1,"required":false,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""},{"name":"email","label":"Email","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":2,"required":true,"selectedOptions":[],"options":[],"validation":{"name":"email","message":"Please
-        enter a valid email address","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""}]'
+      string: "[]"
     http_version: 
-  recorded_at: Mon, 23 Feb 2015 15:16:12 GMT
+  recorded_at: Tue, 13 Mar 2018 13:37:40 GMT
+- request:
+    method: get
+    uri: https://api.hubapi.com/forms/v2/fields/c4189ed5-c056-400d-8e11-63c103c4b422?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 13 Mar 2018 13:41:50 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=da1e8e0e68877e72904897dff949a8c961520948509; expires=Wed, 13-Mar-19
+        13:41:49 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Expose-Headers:
+      - x-last-modified-timestamp, X-HubSpot-NotFound, X-HS-User-Request, Link, X-Total-Count
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B7E3FB8CDB0AFE2873CB24B66CC1CD2D1DDF8779E000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3faeeb9aef3d8b28-KBP
+    body:
+      encoding: UTF-8
+      string: '[{"name":"email","label":"Email","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":2,"required":true,"selectedOptions":[],"options":[],"validation":{"name":"email","message":"Please
+        enter a valid email address","data":"","useDefaultBlockList":false,"blockedEmailAddresses":[]},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":"","dependentFieldFilters":[],"labelHidden":false},{"name":"lastname","label":"Last
+        Name","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":1,"required":false,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false,"blockedEmailAddresses":[]},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":true,"unselectedLabel":"","placeholder":"","dependentFieldFilters":[],"labelHidden":false},{"name":"city","label":"City","type":"string","fieldType":"text","description":"","groupName":"","displayOrder":0,"required":false,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false,"blockedEmailAddresses":[]},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":"","dependentFieldFilters":[],"labelHidden":false},{"name":"twitterbio","label":"Twitter
+        Bio","type":"string","fieldType":"text","description":"","groupName":"","displayOrder":0,"required":false,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false,"blockedEmailAddresses":[]},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":"","dependentFieldFilters":[],"labelHidden":false},{"name":"website","label":"Website
+        URL","type":"string","fieldType":"text","description":"","groupName":"","displayOrder":0,"required":true,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false,"blockedEmailAddresses":[]},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":"","dependentFieldFilters":[],"labelHidden":false}]'
+    http_version: 
+  recorded_at: Tue, 13 Mar 2018 13:41:50 GMT
 recorded_with: VCR 2.4.0

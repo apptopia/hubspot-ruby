@@ -69,9 +69,9 @@ module Hubspot
         @fields
       end
     end
- 
+
     # {https://developers.hubspot.com/docs/methods/forms/submit_form}
-    def submit(opts={})    
+    def submit(opts={})
       response = Hubspot::FormsConnection.submit(SUBMIT_DATA_PATH, params: { form_guid: @guid }, body: opts)
       [204, 302, 200].include?(response.code)
     end
@@ -97,7 +97,7 @@ module Hubspot
 
     def assign_properties(hash)
       @guid = hash['guid']
-      @fields = hash['formFieldGroups'].inject([]){ |result, fg| result | fg['fields'] }
+      @fields = hash['formFieldGroups'].inject([]){ |result, fg| result || fg['fields'] }
       @properties = hash
     end
   end

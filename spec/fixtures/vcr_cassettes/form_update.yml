@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://api.hubapi.com/contacts/v1/forms/561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0?hapikey=demo
+    uri: https://api.hubapi.com/forms/v2/forms/d909f670-7542-4f2a-9160-58ec1bc3c4a4?hapikey=demo
     body:
       encoding: US-ASCII
       string: ''
@@ -12,36 +12,44 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Access-Control-Allow-Credentials:
-      - 'false'
+      Date:
+      - Thu, 08 Mar 2018 10:29:30 GMT
       Content-Type:
       - application/json; charset=UTF-8
-      Date:
-      - Mon, 23 Feb 2015 16:45:12 GMT
-      Vary:
-      - Accept-Encoding
-      - Accept-Encoding
-      Content-Length:
-      - '1835'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
+      Set-Cookie:
+      - __cfduid=daf8b5f13ae456c0167f4abdb575f1a9e1520504970; expires=Fri, 08-Mar-19
+        10:29:30 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Expose-Headers:
+      - x-last-modified-timestamp, X-HubSpot-NotFound, X-HS-User-Request, Link, X-Total-Count
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B917C8A30458BB3772986B2CDB95FB02AF147412A000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3f849efefa428436-KBP
     body:
       encoding: UTF-8
-      string: '{"guid":"561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0","name":"Test Example
-        Form","action":"","method":"POST","cssClass":"hs-form stacked","redirect":"http://developers.hubspot.com/","fields":[{"name":"firstname","label":"First
-        Name","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":0,"required":false,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""},{"name":"lastname","label":"Last
-        Name","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":1,"required":false,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""},{"name":"email","label":"Email","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":2,"required":true,"selectedOptions":[],"options":[],"validation":{"name":"email","message":"Please
-        enter a valid email address","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""}],"submitText":"Submit","followUpId":"","notifyRecipients":"","leadNurturingCampaignId":"","formFieldGroups":[],"createdAt":1366835347235,"updatedAt":1404737770155,"performableHtml":"","migratedFrom":"","ignoreCurrentValues":false,"metaData":[],"deletable":true,"embeddedCode":"<script
-        charset=\"utf-8\" src=\"http://js.hubspot.com/forms/current.js\"></script>\n<script>\n  hbspt.forms.create({\n    portalId:
-        ''62515'',\n    formId: ''561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0''\n  });\n</script>"}'
+      string: '{"portalId":62515,"guid":"d909f670-7542-4f2a-9160-58ec1bc3c4a4","name":"Demo
+        Form 1520504733","action":"","method":"POST","cssClass":"hs-form stacked","redirect":"","submitText":"Sign
+        Up","followUpId":"","notifyRecipients":"","leadNurturingCampaignId":"","formFieldGroups":[],"createdAt":1520504734102,"updatedAt":1520504734102,"performableHtml":"","migratedFrom":"","ignoreCurrentValues":false,"metaData":[],"deletable":true,"inlineMessage":"","tmsId":"","captchaEnabled":false,"campaignGuid":"","cloneable":true,"editable":true,"formType":"HUBSPOT","deletedAt":0,"themeName":""}'
     http_version: 
-  recorded_at: Mon, 23 Feb 2015 16:45:12 GMT
+  recorded_at: Thu, 08 Mar 2018 10:29:30 GMT
 - request:
     method: post
-    uri: https://api.hubapi.com/contacts/v1/forms/561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0?hapikey=demo
+    uri: https://api.hubapi.com/forms/v2/forms/d909f670-7542-4f2a-9160-58ec1bc3c4a4?hapikey=demo
     body:
       encoding: UTF-8
-      string: '{"name":"updated form name 1424709912","redirect":"http://hubspot.com"}'
+      string: '{"name":"updated form name d909f670-7542-4f2a-9160-58ec1bc3c4a4","redirect":"http://hubspot.com"}'
     headers:
       Content-Type:
       - application/json
@@ -50,28 +58,124 @@ http_interactions:
       code: 200
       message: OK
     headers:
-      Access-Control-Allow-Credentials:
-      - 'false'
+      Date:
+      - Thu, 08 Mar 2018 10:29:30 GMT
       Content-Type:
       - application/json; charset=UTF-8
-      Date:
-      - Mon, 23 Feb 2015 16:45:13 GMT
-      Vary:
-      - Accept-Encoding
-      - Accept-Encoding
-      Content-Length:
-      - '1834'
+      Transfer-Encoding:
+      - chunked
       Connection:
       - keep-alive
+      Set-Cookie:
+      - __cfduid=d54c1125dad9e258df86f7bdfca7e2b701520504970; expires=Fri, 08-Mar-19
+        10:29:30 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Expose-Headers:
+      - x-last-modified-timestamp, X-HubSpot-NotFound, X-HS-User-Request, Link, X-Total-Count
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B3F468B2C6472006123EB2523B93FC76E15F3FD39000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3f849f0059118448-KBP
     body:
       encoding: UTF-8
-      string: '{"guid":"561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0","name":"updated form
-        name 1424709912","action":"","method":"POST","cssClass":"hs-form stacked","redirect":"http://hubspot.com","fields":[{"name":"firstname","label":"First
-        Name","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":0,"required":false,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""},{"name":"lastname","label":"Last
-        Name","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":1,"required":false,"selectedOptions":[],"options":[],"validation":{"name":"","message":"","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""},{"name":"email","label":"Email","type":"string","fieldType":"text","description":"","groupName":"contactinformation","displayOrder":2,"required":true,"selectedOptions":[],"options":[],"validation":{"name":"email","message":"Please
-        enter a valid email address","data":"","useDefaultBlockList":false},"enabled":true,"hidden":false,"defaultValue":"","isSmartField":false,"unselectedLabel":"","placeholder":""}],"submitText":"Submit","followUpId":"","notifyRecipients":"","leadNurturingCampaignId":"","formFieldGroups":[],"createdAt":1366835347235,"updatedAt":1424709913018,"performableHtml":"","migratedFrom":"","ignoreCurrentValues":false,"metaData":[],"deletable":true,"embeddedCode":"<script
-        charset=\"utf-8\" src=\"http://js.hubspot.com/forms/current.js\"></script>\n<script>\n  hbspt.forms.create({\n    portalId:
-        ''62515'',\n    formId: ''561d9ce9-bb4c-45b4-8e32-21cdeaa3a7f0''\n  });\n</script>"}'
+      string: '{"portalId":62515,"guid":"d909f670-7542-4f2a-9160-58ec1bc3c4a4","name":"updated
+        form name d909f670-7542-4f2a-9160-58ec1bc3c4a4","action":"","method":"","cssClass":"","redirect":"http://hubspot.com","submitText":"","followUpId":"","notifyRecipients":"","leadNurturingCampaignId":"","formFieldGroups":[],"createdAt":0,"updatedAt":1520504970399,"performableHtml":"","migratedFrom":"","ignoreCurrentValues":false,"metaData":[],"deletable":true,"inlineMessage":"","tmsId":"","captchaEnabled":false,"campaignGuid":"","cloneable":true,"editable":true,"formType":"HUBSPOT","deletedAt":0,"themeName":""}'
     http_version: 
-  recorded_at: Mon, 23 Feb 2015 16:45:12 GMT
+  recorded_at: Thu, 08 Mar 2018 10:29:30 GMT
+- request:
+    method: get
+    uri: https://api.hubapi.com/forms/v2/forms/7f82048b-1364-4158-8a59-166e70df42c6?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 13 Mar 2018 13:42:30 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dd88ce0ad71541edf72417add227eaf871520948550; expires=Wed, 13-Mar-19
+        13:42:30 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Expose-Headers:
+      - x-last-modified-timestamp, X-HubSpot-NotFound, X-HS-User-Request, Link, X-Total-Count
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B04129A13BD109CF40E926C56292B16CBEB2AB205000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3faeec976d8783fa-KBP
+    body:
+      encoding: UTF-8
+      string: '{"portalId":62515,"guid":"7f82048b-1364-4158-8a59-166e70df42c6","name":"Demo
+        Form 1520505081","action":"","method":"POST","cssClass":"hs-form stacked","redirect":"","submitText":"Sign
+        Up","followUpId":"","notifyRecipients":"","leadNurturingCampaignId":"","formFieldGroups":[],"createdAt":1520505081738,"updatedAt":1520505081738,"performableHtml":"","migratedFrom":"","ignoreCurrentValues":false,"metaData":[],"deletable":true,"inlineMessage":"","tmsId":"","captchaEnabled":false,"campaignGuid":"","cloneable":true,"editable":true,"formType":"HUBSPOT","deletedAt":0,"themeName":""}'
+    http_version: 
+  recorded_at: Tue, 13 Mar 2018 13:42:30 GMT
+- request:
+    method: post
+    uri: https://api.hubapi.com/forms/v2/forms/7f82048b-1364-4158-8a59-166e70df42c6?hapikey=demo
+    body:
+      encoding: UTF-8
+      string: '{"name":"updated form name 7f82048b-1364-4158-8a59-166e70df42c6","redirect":"http://hubspot.com"}'
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Tue, 13 Mar 2018 13:42:30 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dd88ce0ad71541edf72417add227eaf871520948550; expires=Wed, 13-Mar-19
+        13:42:30 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Access-Control-Expose-Headers:
+      - x-last-modified-timestamp, X-HubSpot-NotFound, X-HS-User-Request, Link, X-Total-Count
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B307F8701B4A6859312F8DC956A83764047BF6375000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3faeec98adfe83fa-KBP
+    body:
+      encoding: UTF-8
+      string: '{"portalId":62515,"guid":"7f82048b-1364-4158-8a59-166e70df42c6","name":"updated
+        form name 7f82048b-1364-4158-8a59-166e70df42c6","action":"","method":"","cssClass":"","redirect":"http://hubspot.com","submitText":"","followUpId":"","notifyRecipients":"","leadNurturingCampaignId":"","formFieldGroups":[],"createdAt":0,"updatedAt":1520948550613,"performableHtml":"","migratedFrom":"","ignoreCurrentValues":false,"metaData":[],"deletable":true,"inlineMessage":"","tmsId":"","captchaEnabled":false,"campaignGuid":"","cloneable":true,"editable":true,"formType":"HUBSPOT","deletedAt":0,"themeName":""}'
+    http_version: 
+  recorded_at: Tue, 13 Mar 2018 13:42:30 GMT
 recorded_with: VCR 2.4.0
