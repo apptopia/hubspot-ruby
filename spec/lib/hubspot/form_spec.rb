@@ -204,6 +204,63 @@ describe Hubspot::Form do
     end
   end
 
+  describe '.create_or_update!' do
+    subject { described_class.create_or_update!(params) }
+    let(:params) { {name: name, submitText: 'New submit text'} }
+
+    context 'for existing form' do
+      cassette 'form_create_or_update-update'
+
+      let(:name) { '1234zz' }
+
+      it 'updates existing form' do
+        forms = described_class.all(limit: 10)
+        stub(described_class).all{ forms }
+        form = forms.find{ |form| form.properties['name'] == name }
+        mock(form).update!(params){ true }
+        subject
+      end
+
+      context 'with logger' do
+        let(:params) { {logger: logger, name: name, submitText: 'New submit text'} }
+
+        it 'calls .all and .update! with logger' do
+          forms = described_class.all(limit: 10)
+          form = forms.find{ |form| form.properties['name'] == name }
+
+          mock(described_class).all(logger: logger){ forms }
+          mock(form).update!(params){ true }
+          subject
+        end
+      end
+    end
+
+    context 'for not existing form' do
+      cassette 'form_create_or_update-create'
+
+      let(:name) { 'fdsg6h45' }
+
+      it 'creates new form' do
+        forms = described_class.all(limit: 10)
+        stub(described_class).all{ forms }
+        mock(described_class).create!(params){ true }
+        subject
+      end
+
+      context 'with logger' do
+        let(:params) { {logger: logger, name: name, submitText: 'New submit text'} }
+
+        it 'calls .all and .create! with logger' do
+          forms = described_class.all(limit: 10)
+
+          mock(described_class).all(logger: logger){ forms }
+          mock(described_class).create!(params){ true }
+          subject
+        end
+      end
+    end
+  end
+
   describe '.destroy!' do
     cassette "form_destroy"
 

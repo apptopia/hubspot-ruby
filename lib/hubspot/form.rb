@@ -31,7 +31,9 @@ module Hubspot
       end
 
       def create_or_update!(opts={})
-        form = all.find { |form| form.properties['name'] == opts[:name] }
+        logger = opts.delete(:logger) { false }
+        form = all(logger: logger).find { |form| form.properties['name'] == opts[:name] }
+        opts.merge!(logger: logger) if logger
         if form
           form.update!(opts)
         else
