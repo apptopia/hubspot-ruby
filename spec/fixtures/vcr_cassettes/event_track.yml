@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://track.hubspot.com/v1/event/?_a=62515&_n=000000001625&email=testingapis@hubspot.com
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 21 Mar 2018 14:54:27 GMT
+      Content-Type:
+      - image/gif
+      Content-Length:
+      - '45'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d33a67d861a0d7ba396346eefccef37a31521644067; expires=Thu, 21-Mar-19
+        14:54:27 GMT; path=/; domain=.hubspot.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Cache-Control:
+      - no-cache, no-store, no-transform
+      P3p:
+      - CP="NOI CUR ADM OUR NOR STA NID"
+      X-Robots-Tag:
+      - none
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3ff140fe4493842a-KBP
+    body:
+      encoding: ASCII-8BIT
+      string: !binary |-
+        R0lGODlhAQABAPAAAAAAAAAAACH5BAEAAAAALAAAAAABAAEAQAgEAAEEBAA7
+    http_version: 
+  recorded_at: Wed, 21 Mar 2018 14:54:27 GMT
+recorded_with: VCR 2.4.0

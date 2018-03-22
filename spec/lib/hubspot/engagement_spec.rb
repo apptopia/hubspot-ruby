@@ -4,6 +4,7 @@ describe Hubspot::Engagement do
       HTTParty.get("https://api.hubapi.com/engagements/v1/engagements/4318933?hapikey=demo").parsed_response
     end
   end
+  let(:logger) { mock('logger') }
 
   before{ Hubspot.configure(hapikey: "demo") }
 
@@ -46,6 +47,15 @@ describe Hubspot::Engagement do
         expect(engagements['hasMore']).to eq(true)
       end
     end
+
+    context 'with logger' do
+      let(:options) { {logger: logger} }
+
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        described_class.all(logger: logger)
+      end
+    end
   end
 
   describe '.recent' do
@@ -70,6 +80,15 @@ describe Hubspot::Engagement do
 
       it 'returns raw response' do
         expect(engagements['hasMore']).to eq(true)
+      end
+    end
+
+    context 'with logger' do
+      let(:options) { {logger: logger} }
+
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        subject
       end
     end
   end

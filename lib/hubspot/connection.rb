@@ -47,10 +47,13 @@ module Hubspot
       end
 
       def track(path, opts)
+        logger = opts.delete(:logger) { false }
         Hubspot::Config.ensure! :portal_id
         url = generate_url(path, opts.merge(_a: Hubspot::Config.portal_id), base_url: TRACK_URL, hapikey: false)
+        start_time = current_timestamp
         response = get(url)
         raise(Hubspot::RequestError.new(response)) unless response.success?
+        logger.log(:get, url, opts, response.success?, (current_timestamp - start_time)) if logger
         response
       end
 

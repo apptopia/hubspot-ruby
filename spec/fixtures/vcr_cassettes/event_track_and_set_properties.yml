@@ -1,0 +1,44 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.hubapi.com/contacts/v1/contact/createOrUpdate/email/testingapis@hubspot.com?hapikey=demo
+    body:
+      encoding: UTF-8
+      string: '{"properties":[{"property":"email","value":"testingapis@hubspot.com"}]}'
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Wed, 21 Mar 2018 15:39:00 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d4cdb9e6a931a440a087b6c4f918bd2691521646739; expires=Thu, 21-Mar-19
+        15:38:59 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding
+      - Accept-Encoding
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 3ff1823b3d0b8b10-KBP
+    body:
+      encoding: UTF-8
+      string: '{"vid":6306674,"isNew":false}'
+    http_version: 
+  recorded_at: Wed, 21 Mar 2018 15:39:00 GMT
+recorded_with: VCR 2.4.0
