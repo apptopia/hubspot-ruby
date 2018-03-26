@@ -11,14 +11,14 @@ module Hubspot
       end
 
       # {http://developers.hubspot.com/docs/methods/contacts/v2/get_contacts_properties}
-      def all
-        response = Hubspot::Connection.get_json(PROPERTY_PATH, {})
+      def all(params = {})
+        response = Hubspot::Connection.get_json(PROPERTY_PATH, params)
         response.map{|property| new(property)}
       end
 
       # {http://developers.hubspot.com/docs/methods/companies/get_contact_property}
-      def find_by_name(name)
-        response = Hubspot::Connection.get_json("#{PROPERTY_PATH_BY_NAME}#{name}", {})
+      def find_by_name(name, params = {})
+        response = Hubspot::Connection.get_json("#{PROPERTY_PATH_BY_NAME}#{name}", params)
         new(response)
       end
 
@@ -43,8 +43,8 @@ module Hubspot
       end
 
       # {http://developers.hubspot.com/docs/methods/contacts/v2/delete_contact_property}
-      def delete(name)
-        response = Hubspot::Connection.delete_json("#{PROPERTY_PATH_BY_NAME}#{name}", {})
+      def delete(name, params = {})
+        response = Hubspot::Connection.delete_json("#{PROPERTY_PATH_BY_NAME}#{name}", params)
         response.success?
       end
 

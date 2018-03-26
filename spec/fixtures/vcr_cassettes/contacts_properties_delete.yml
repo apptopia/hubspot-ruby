@@ -1,0 +1,162 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.hubapi.com/contacts/v2/properties/?hapikey=demo
+    body:
+      encoding: UTF-8
+      string: '{"name":"hr_test_property_name_2","type":"string","groupName":"contactinformation"}'
+    headers:
+      Content-Type:
+      - application/json
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 26 Mar 2018 18:31:56 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d9d4230d4c7dc6c6877ab321270260b571522089116; expires=Tue, 26-Mar-19
+        18:31:56 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2BD4537B06E03D0C9D41EDD24AF2C15F5073FB9E2E000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 401bb26fdd1b8b34-KBP
+    body:
+      encoding: UTF-8
+      string: '{"name":"hr_test_property_name_2","label":"","description":"","groupName":"contactinformation","type":"string","fieldType":"","options":[],"hidden":false,"calculated":false,"externalOptions":false,"deleted":null,"referencedObjectType":null,"createdAt":null,"updatedAt":null,"hubspotDefined":null,"formField":false,"displayOrder":654,"readOnlyValue":false,"readOnlyDefinition":false,"mutableDefinitionNotDeletable":false,"favorited":false,"favoritedOrder":-1,"displayMode":"current_value","showCurrencySymbol":null,"createdUserId":null,"textDisplayHint":null,"numberDisplayHint":null,"optionsAreMutable":null,"isCustomizedDefault":false,"updatedUserId":null}'
+    http_version: 
+  recorded_at: Mon, 26 Mar 2018 18:31:56 GMT
+- request:
+    method: get
+    uri: https://api.hubapi.com/contacts/v2/properties/named/hr_test_property_name_2?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 26 Mar 2018 18:31:56 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=df3d5bf064f68645e0f112feb416d75e41522089116; expires=Tue, 26-Mar-19
+        18:31:56 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B2C26222D7116E86879D48C20BC6CC68E4EA9CB44000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 401bb271bb72822b-KBP
+    body:
+      encoding: UTF-8
+      string: '{"name":"hr_test_property_name_2","label":"","description":"","groupName":"contactinformation","type":"string","fieldType":"","hidden":false,"options":[],"calculated":false,"externalOptions":false,"deleted":false,"readOnlyValue":false,"updatedAt":1522089116231,"updatedUserId":null,"createdUserId":null,"favorited":false,"favoritedOrder":-1,"readOnlyDefinition":false,"mutableDefinitionNotDeletable":false,"displayMode":"current_value","showCurrencySymbol":null,"hubspotDefined":null,"numberDisplayHint":null,"textDisplayHint":null,"optionsAreMutable":null,"referencedObjectType":null,"createdAt":1522089116231,"isCustomizedDefault":false,"displayOrder":654,"formField":false}'
+    http_version: 
+  recorded_at: Mon, 26 Mar 2018 18:31:56 GMT
+- request:
+    method: delete
+    uri: https://api.hubapi.com/contacts/v2/properties/named/hr_test_property_name_2?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Date:
+      - Mon, 26 Mar 2018 18:31:56 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=df3d5bf064f68645e0f112feb416d75e41522089116; expires=Tue, 26-Mar-19
+        18:31:56 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      X-Trace:
+      - 2B072832CE74D2DF5333E980BF0E0F96A55B3D0351000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 401bb2734c4a822b-KBP
+    body:
+      encoding: UTF-8
+      string: ''
+    http_version: 
+  recorded_at: Mon, 26 Mar 2018 18:31:56 GMT
+- request:
+    method: get
+    uri: https://api.hubapi.com/contacts/v2/properties/named/hr_test_property_name_2?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Date:
+      - Mon, 26 Mar 2018 18:31:57 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Content-Length:
+      - '203'
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d9530997b4bd0d5cff6997c9f6dea27d81522089117; expires=Tue, 26-Mar-19
+        18:31:57 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      X-Hubspot-Notfound:
+      - 'true'
+      X-Trace:
+      - 2BDAD7DDED01268938CBCF3CB7E82E6B2983CA3CB6000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 401bb2754fab8b34-KBP
+    body:
+      encoding: UTF-8
+      string: '{"status":"error","message":"Couldn''t find a Property with the given
+        name ''hr_test_property_name_2''","correlationId":"9642c6ff-5951-477d-baa0-70370b13994b","requestId":"dd544daea014d28cd68a8fa07a352dd0"}'
+    http_version: 
+  recorded_at: Mon, 26 Mar 2018 18:31:57 GMT
+recorded_with: VCR 2.4.0

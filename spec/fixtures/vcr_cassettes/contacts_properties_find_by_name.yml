@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.hubapi.com/contacts/v2/properties/named/email?hapikey=demo
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Mon, 26 Mar 2018 18:11:14 GMT
+      Content-Type:
+      - application/json; charset=UTF-8
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=dfd242cc8785bbef4b7f5e236ca96c91b1522087873; expires=Tue, 26-Mar-19
+        18:11:13 GMT; path=/; domain=.hubapi.com; HttpOnly
+      Access-Control-Allow-Credentials:
+      - 'false'
+      Vary:
+      - Accept-Encoding, User-Agent
+      X-Trace:
+      - 2B13CBECF371054290AFECB84A075C18A9B30A6B72000000000000000000
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 401b941c6bdc8b34-KBP
+    body:
+      encoding: UTF-8
+      string: '{"name":"email","label":"Email","description":"A contact''s email address","groupName":"contactinformation","type":"string","fieldType":"text","hidden":false,"options":[],"calculated":false,"externalOptions":false,"deleted":false,"createdAt":1352496309950,"updatedAt":1409956400408,"formField":true,"displayOrder":5,"hubspotDefined":true,"readOnlyValue":false,"readOnlyDefinition":true,"mutableDefinitionNotDeletable":true,"favorited":true,"favoritedOrder":3,"displayMode":"current_value","showCurrencySymbol":null,"createdUserId":null,"textDisplayHint":"email","numberDisplayHint":null,"optionsAreMutable":null,"referencedObjectType":null,"isCustomizedDefault":false,"updatedUserId":null}'
+    http_version: 
+  recorded_at: Mon, 26 Mar 2018 18:11:14 GMT
+recorded_with: VCR 2.4.0
