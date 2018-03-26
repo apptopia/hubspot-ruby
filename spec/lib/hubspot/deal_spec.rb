@@ -4,6 +4,7 @@ describe Hubspot::Deal do
       HTTParty.get("https://api.hubapi.com/deals/v1/deal/3?hapikey=demo&portalId=62515").parsed_response
     end
   end
+  let(:logger) { mock('logger') }
 
   before{ Hubspot.configure(hapikey: "demo") }
 
@@ -16,11 +17,20 @@ describe Hubspot::Deal do
 
   describe ".create!" do
     cassette "deal_create"
-    subject { Hubspot::Deal.create!(62515, [8954037], [27136], {}) }
+    let(:params) { {} }
+    subject { Hubspot::Deal.create!(62515, [8954037], [27136], params) }
     its(:deal_id)     { should_not be_nil }
     its(:portal_id)   { should eql 62515 }
     its(:company_ids) { should eql [8954037]}
     its(:vids)        { should eql [27136]}
+
+    context 'with logger' do
+      let(:params){ {logger: logger} }
+      it 'logs request' do
+        mock(logger).log(:post, anything, anything, anything, anything){ true }
+        subject
+      end
+    end
   end
 
   describe ".find" do
@@ -31,6 +41,14 @@ describe Hubspot::Deal do
       find_deal = Hubspot::Deal.find(deal.deal_id)
       find_deal.deal_id.should eql deal.deal_id
       find_deal.properties["amount"].should eql "30"
+    end
+
+    context 'with logger' do
+      let(:params){ {logger: logger} }
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        Hubspot::Deal.find(deal.deal_id, logger: logger)
+      end
     end
   end
 
@@ -63,6 +81,14 @@ describe Hubspot::Deal do
       deal = Hubspot::Deal.recent(count: 1, offset: 1).first
       expect(deal.properties['dealname']).to eql '1420704406-goy6v83a97nr@y6v83a97nr.com'  # the third deal
     end
+
+    context 'with logger' do
+      let(:params){ {logger: logger} }
+      it 'logs request' do
+        mock(logger).log(:get, anything, anything, anything, anything){ true }
+        Hubspot::Deal.recent(logger: logger)
+      end
+    end
   end
 
   describe '#destroy!' do
@@ -71,13 +97,40 @@ describe Hubspot::Deal do
     let(:deal) {Hubspot::Deal.create!(62515, [8954037], [27136], {amount: 30})}
 
     it 'should remove from hubspot' do
-      pending
       expect(Hubspot::Deal.find(deal.deal_id)).to_not be_nil
 
       expect(deal.destroy!).to be_true
       expect(deal.destroyed?).to be_true
 
-      expect(Hubspot::Deal.find(deal.deal_id)).to be_nil
+      expect{ Hubspot::Deal.find(deal.deal_id) }.to raise_error(Hubspot::RequestError)
+    end
+
+    context 'with logger' do
+      let(:params){ {logger: logger} }
+      it 'logs request' do
+        mock(logger).log(:delete, anything, anything, anything, anything){ true }
+        deal.destroy!(logger: logger)
+      end
+    end
+  end
+
+  describe '#update!' do
+    cassette 'update_deal'
+
+    let(:deal) {Hubspot::Deal.create!(62515, [8954037], [27136], {amount: 30})}
+    let(:params) { {amount: 50} }
+    subject { deal.update!(params) }
+
+    it 'should update deal' do
+      expect{ subject }.to change{ Hubspot::Deal.find(deal.deal_id).properties["amount"] }.from('30').to('50')
+    end
+
+    context 'with logger' do
+      let(:params){ {amount: 50, logger: logger} }
+      it 'logs request' do
+        mock(logger).log(:put, anything, anything, anything, anything){ true }
+        subject
+      end
     end
   end
 

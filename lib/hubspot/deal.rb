@@ -28,16 +28,17 @@ module Hubspot
 
     class << self
       def create!(portal_id, company_ids, vids, params={})
+        logger = params.delete(:logger) { false }
         #TODO: clean following hash, Hubspot::Utils should do the trick
         associations_hash = {"portalId" => portal_id, "associations" => { "associatedCompanyIds" => company_ids, "associatedVids" => vids}}
         post_data = associations_hash.merge({ properties: Hubspot::Utils.hash_to_properties(params, key_name: "name") })
 
-        response = Hubspot::Connection.post_json(CREATE_DEAL_PATH, params: {}, body: post_data )
+        response = Hubspot::Connection.post_json(CREATE_DEAL_PATH, params: {}, body: post_data, logger: logger)
         new(response)
       end
 
-      def find(deal_id)
-        response = Hubspot::Connection.get_json(DEAL_PATH, { deal_id: deal_id })
+      def find(deal_id, opts = {})
+        response = Hubspot::Connection.get_json(DEAL_PATH, opts.merge(deal_id: deal_id))
         new(response)
       end
 
@@ -55,8 +56,8 @@ module Hubspot
     # Archives the contact in hubspot
     # {https://developers.hubspot.com/docs/methods/contacts/delete_contact}
     # @return [TrueClass] true
-    def destroy!
-      response = Hubspot::Connection.delete_json(DEAL_PATH, {deal_id: deal_id})
+    def destroy!(opts = {})
+      response = Hubspot::Connection.delete_json(DEAL_PATH, opts.merge(deal_id: deal_id))
       @destroyed = true
     end
 
@@ -73,8 +74,9 @@ module Hubspot
     # @param params [Hash] hash of properties to update
     # @return [Hubspot::Deal] self
     def update!(params)
+      logger = params.delete(:logger) { false }
       query = {"properties" => Hubspot::Utils.hash_to_properties(params.stringify_keys!, key_name: 'name')}
-      response = Hubspot::Connection.put_json(UPDATE_DEAL_PATH, params: { deal_id: deal_id }, body: query)
+      response = Hubspot::Connection.put_json(UPDATE_DEAL_PATH, params: { deal_id: deal_id }, body: query, logger: logger)
       @properties.merge!(params)
       self
     end
