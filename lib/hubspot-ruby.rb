@@ -15,6 +15,7 @@ require 'hubspot/topic'
 require 'hubspot/deal'
 require 'hubspot/event'
 require 'hubspot/company_properties'
+require 'hubspot/email'
 
 module Hubspot
   def self.configure(config={})
