@@ -14,19 +14,6 @@ module Hubspot
     end
 
     def send_email(message_props, custom_params = {}, contact_params = {})
-      send_message(message_props, custom_params, contact_params)
-    rescue Hubspot::RequestError => e
-      raise(Hubspot::RequestError.new(e.response)) if e.response.code >= 500 && e.response.code < 600
-      e.response.parsed_response
-    end
-
-    private
-
-    def params_to_props(params)
-      Hubspot::Utils.hash_to_properties(params, key_name: "name")
-    end
-
-    def send_message(message_props, custom_params, contact_params)
       Hubspot::Connection.post_json(
         SINGLE_SEND_EMAIL_PATH,
         params: {},
@@ -37,6 +24,12 @@ module Hubspot
           customProperties: params_to_props(custom_params)
         }
       )
+    end
+
+    private
+
+    def params_to_props(params)
+      Hubspot::Utils.hash_to_properties(params, key_name: 'name')
     end
   end
 end
