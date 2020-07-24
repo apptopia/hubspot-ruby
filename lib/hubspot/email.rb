@@ -14,11 +14,10 @@ module Hubspot
     end
 
     def send_email(message_props, custom_params = {}, contact_params = {})
-      response = send_message(message_props, custom_params, contact_params)
-    rescue Hubspot::RequestError
-      raise(Hubspot::RequestError.new(response)) if response.code >= 500 && response.code < 600
-    ensure
-      response
+      send_message(message_props, custom_params, contact_params)
+    rescue Hubspot::RequestError => e
+      raise(Hubspot::RequestError.new(e.response)) if e.response.code >= 500 && e.response.code < 600
+      e.response
     end
 
     private
