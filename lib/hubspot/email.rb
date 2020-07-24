@@ -17,7 +17,7 @@ module Hubspot
       send_message(message_props, custom_params, contact_params)
     rescue Hubspot::RequestError => e
       raise(Hubspot::RequestError.new(e.response)) if e.response.code >= 500 && e.response.code < 600
-      e.response
+      e.response.parsed_response
     end
 
     private
